@@ -18,6 +18,7 @@ using System.Security;
 using System.Text;
 using System.Threading;
 
+//  SYSTEM  -------------------------------------------------------------------
 [assembly: TypeForwardedTo(typeof(Action))]                             // OK
 [assembly: TypeForwardedTo(typeof(Action<>))]                           // OK
 [assembly: TypeNotForwarded(typeof(Action<,,,,,,,,,>))]                 // OK
@@ -56,45 +57,13 @@ using System.Threading;
 [assembly: TypeForwardedTo(typeof(byte))]
 [assembly: TypeForwardedTo(typeof(char))]
 [assembly: TypeForwardedTo(typeof(CLSCompliantAttribute))]
-[assembly: TypeForwardedTo(typeof(DictionaryEntry))]
-[assembly: TypeForwardedTo(typeof(ICollection<>))]
-[assembly: TypeForwardedTo(typeof(IComparer<>))]
-[assembly: TypeForwardedTo(typeof(IDictionary<,>))]
-[assembly: TypeForwardedTo(typeof(IEnumerable<>))]
-[assembly: TypeForwardedTo(typeof(IEnumerator<>))]
-[assembly: TypeForwardedTo(typeof(IEqualityComparer<>))]
-[assembly: TypeForwardedTo(typeof(IList<>))]
-[assembly: TypeForwardedTo(typeof(IReadOnlyCollection<>))]
-[assembly: TypeForwardedTo(typeof(IReadOnlyDictionary<,>))]
-[assembly: TypeForwardedTo(typeof(IReadOnlyList<>))]
-[assembly: TypeForwardedTo(typeof(ISet<>))]
-[assembly: TypeForwardedTo(typeof(KeyNotFoundException))]
-[assembly: TypeForwardedTo(typeof(KeyValuePair<,>))]
-[assembly: TypeForwardedTo(typeof(ICollection))]
-[assembly: TypeForwardedTo(typeof(IComparer))]
-[assembly: TypeForwardedTo(typeof(IDictionary))]
-[assembly: TypeForwardedTo(typeof(IDictionaryEnumerator))]
-[assembly: TypeForwardedTo(typeof(IEnumerable))]
-[assembly: TypeForwardedTo(typeof(IEnumerator))]
-[assembly: TypeForwardedTo(typeof(IEqualityComparer))]
-[assembly: TypeForwardedTo(typeof(IList))]
-[assembly: TypeForwardedTo(typeof(IStructuralComparable))]
-[assembly: TypeForwardedTo(typeof(IStructuralEquatable))]
-[assembly: TypeForwardedTo(typeof(Collection<>))]
-[assembly: TypeForwardedTo(typeof(ReadOnlyCollection<>))]
 [assembly: TypeForwardedTo(typeof(Comparison<>))]
-[assembly: TypeForwardedTo(typeof(DefaultValueAttribute))]
-[assembly: TypeForwardedTo(typeof(EditorBrowsableAttribute))]
-[assembly: TypeForwardedTo(typeof(EditorBrowsableState))]
 [assembly: TypeForwardedTo(typeof(DateTime))]
 [assembly: TypeForwardedTo(typeof(DateTimeKind))]
-[assembly: TypeForwardedTo(typeof(DateTimeOffset))]
+[assembly: TypeNotForwarded(typeof(DateTimeOffset))]                    // OK?
 [assembly: TypeForwardedTo(typeof(DayOfWeek))]
 [assembly: TypeForwardedTo(typeof(Decimal))]
 [assembly: TypeForwardedTo(typeof(Delegate))]
-[assembly: TypeForwardedTo(typeof(ConditionalAttribute))]
-[assembly: TypeForwardedTo(typeof(DebuggableAttribute))]
-[assembly: TypeForwardedTo(typeof(DebuggableAttribute.DebuggingModes))]
 [assembly: TypeForwardedTo(typeof(DivideByZeroException))]
 [assembly: TypeForwardedTo(typeof(double))]
 [assembly: TypeForwardedTo(typeof(Enum))]
@@ -102,32 +71,28 @@ using System.Threading;
 [assembly: TypeForwardedTo(typeof(EventHandler))]
 [assembly: TypeForwardedTo(typeof(EventHandler<>))]
 [assembly: TypeForwardedTo(typeof(Exception))]
-[assembly: TypeForwardedTo(typeof(FieldAccessException))]
 [assembly: TypeForwardedTo(typeof(FlagsAttribute))]
 [assembly: TypeForwardedTo(typeof(FormatException))]
-[assembly: TypeForwardedTo(typeof(FormattableString))]
-[assembly: TypeForwardedTo(typeof(Func<>))]
-[assembly: TypeForwardedTo(typeof(Func<,,,,,,,,,>))]
-[assembly: TypeForwardedTo(typeof(Func<,,,,,,,,,,>))]
-[assembly: TypeForwardedTo(typeof(Func<,,,,,,,,,,,>))]
-[assembly: TypeForwardedTo(typeof(Func<,,,,,,,,,,,,>))]
-[assembly: TypeForwardedTo(typeof(Func<,,,,,,,,,,,,,>))]
-[assembly: TypeForwardedTo(typeof(Func<,,,,,,,,,,,,,,>))]
-[assembly: TypeForwardedTo(typeof(Func<,,,,,,,,,,,,,,,>))]
-[assembly: TypeForwardedTo(typeof(Func<,,,,,,,,,,,,,,,,>))]
-[assembly: TypeForwardedTo(typeof(Func<,>))]
-[assembly: TypeForwardedTo(typeof(Func<,,>))]
-[assembly: TypeForwardedTo(typeof(Func<,,,>))]
-[assembly: TypeForwardedTo(typeof(Func<,,,,>))]
-[assembly: TypeForwardedTo(typeof(Func<,,,,,>))]
-[assembly: TypeForwardedTo(typeof(Func<,,,,,,>))]
-[assembly: TypeForwardedTo(typeof(Func<,,,,,,,>))]
-[assembly: TypeForwardedTo(typeof(Func<,,,,,,,,>))]
-[assembly: TypeForwardedTo(typeof(GC))]
-[assembly: TypeForwardedTo(typeof(GCCollectionMode))]
-[assembly: TypeForwardedTo(typeof(DateTimeStyles))]
-[assembly: TypeForwardedTo(typeof(NumberStyles))]
-[assembly: TypeForwardedTo(typeof(TimeSpanStyles))]
+[assembly: TypeForwardedTo(typeof(Func<>))]                             // OK
+[assembly: TypeNotForwarded(typeof(Func<,,,,,,,,,>))]                   // OK
+[assembly: TypeNotForwarded(typeof(Func<,,,,,,,,,,>))]                  // OK
+[assembly: TypeNotForwarded(typeof(Func<,,,,,,,,,,,>))]                 // OK
+[assembly: TypeNotForwarded(typeof(Func<,,,,,,,,,,,,>))]                // OK
+[assembly: TypeNotForwarded(typeof(Func<,,,,,,,,,,,,,>))]               // OK
+[assembly: TypeNotForwarded(typeof(Func<,,,,,,,,,,,,,,>))]              // OK
+[assembly: TypeNotForwarded(typeof(Func<,,,,,,,,,,,,,,,>))]             // OK
+[assembly: TypeNotForwarded(typeof(Func<,,,,,,,,,,,,,,,,>))]            // OK
+[assembly: TypeForwardedTo(typeof(Func<,>))]                            // OK
+[assembly: TypeForwardedTo(typeof(Func<,,>))]                           // OK
+[assembly: TypeForwardedTo(typeof(Func<,,,>))]                          // OK
+[assembly: TypeForwardedTo(typeof(Func<,,,,>))]                         // OK
+[assembly: TypeNotForwarded(typeof(Func<,,,,,>))]                       // OK
+[assembly: TypeNotForwarded(typeof(Func<,,,,,,>))]                      // OK
+[assembly: TypeNotForwarded(typeof(Func<,,,,,,,>))]                     // OK
+[assembly: TypeNotForwarded(typeof(Func<,,,,,,,,>))]                    // OK
+[assembly: TypeForwardedTo(typeof(GC))]                                 // OK
+[assembly: TypeNotForwarded(typeof(GC2))]                               // OK
+[assembly: TypeNotForwarded(typeof(GCCollectionMode))]                  // OK
 [assembly: TypeForwardedTo(typeof(Guid))]
 [assembly: TypeForwardedTo(typeof(IAsyncResult))]
 [assembly: TypeForwardedTo(typeof(IComparable))]
@@ -139,7 +104,6 @@ using System.Threading;
 [assembly: TypeForwardedTo(typeof(IFormatProvider))]
 [assembly: TypeForwardedTo(typeof(IFormattable))]
 [assembly: TypeForwardedTo(typeof(IndexOutOfRangeException))]
-[assembly: TypeForwardedTo(typeof(InsufficientExecutionStackException))]
 [assembly: TypeForwardedTo(typeof(short))]
 [assembly: TypeForwardedTo(typeof(int))]
 [assembly: TypeForwardedTo(typeof(long))]
@@ -147,17 +111,11 @@ using System.Threading;
 [assembly: TypeForwardedTo(typeof(InvalidCastException))]
 [assembly: TypeForwardedTo(typeof(InvalidOperationException))]
 [assembly: TypeForwardedTo(typeof(InvalidProgramException))]
-[assembly: TypeForwardedTo(typeof(InvalidTimeZoneException))]
-[assembly: TypeForwardedTo(typeof(DirectoryNotFoundException))]
-[assembly: TypeForwardedTo(typeof(FileLoadException))]
-[assembly: TypeForwardedTo(typeof(FileNotFoundException))]
-[assembly: TypeForwardedTo(typeof(IOException))]
-[assembly: TypeForwardedTo(typeof(PathTooLongException))]
-[assembly: TypeForwardedTo(typeof(IObservable<>))]
-[assembly: TypeForwardedTo(typeof(IObserver<>))]
-[assembly: TypeForwardedTo(typeof(IProgress<>))]
-[assembly: TypeForwardedTo(typeof(Lazy<>))]
-[assembly: TypeForwardedTo(typeof(Lazy<,>))]
+[assembly: TypeNotForwarded(typeof(InvalidTimeZoneException))]
+[assembly: TypeNotForwarded(typeof(IObservable<>))]                     // OK
+[assembly: TypeNotForwarded(typeof(IObserver<>))]                       // OK
+[assembly: TypeNotForwarded(typeof(IProgress<>))]                       // OK
+[assembly: TypeNotForwarded(typeof(Lazy<>))]                            // OK
 [assembly: TypeForwardedTo(typeof(MemberAccessException))]
 [assembly: TypeForwardedTo(typeof(MethodAccessException))]
 [assembly: TypeForwardedTo(typeof(MissingFieldException))]
@@ -179,6 +137,59 @@ using System.Threading;
 [assembly: TypeForwardedTo(typeof(PlatformNotSupportedException))]
 [assembly: TypeForwardedTo(typeof(Predicate<>))]
 [assembly: TypeForwardedTo(typeof(RankException))]
+//  SYSTEM.COLLECTIONS  -------------------------------------------------------
+[assembly: TypeForwardedTo(typeof(DictionaryEntry))]
+[assembly: TypeForwardedTo(typeof(ICollection))]
+[assembly: TypeForwardedTo(typeof(IComparer))]
+[assembly: TypeForwardedTo(typeof(IDictionary))]
+[assembly: TypeForwardedTo(typeof(IDictionaryEnumerator))]
+[assembly: TypeForwardedTo(typeof(IEnumerable))]
+[assembly: TypeForwardedTo(typeof(IEnumerator))]
+[assembly: TypeForwardedTo(typeof(IEqualityComparer))]
+[assembly: TypeForwardedTo(typeof(IList))]
+[assembly: TypeNotForwarded(typeof(IStructuralComparable))]             // OK
+[assembly: TypeNotForwarded(typeof(IStructuralEquatable))]              // OK
+//  SYSTEM.COLLECTIONS.GENERIC  -----------------------------------------------
+[assembly: TypeForwardedTo(typeof(ICollection<>))]
+[assembly: TypeForwardedTo(typeof(IComparer<>))]
+[assembly: TypeForwardedTo(typeof(IDictionary<,>))]
+[assembly: TypeForwardedTo(typeof(IEnumerable<>))]
+[assembly: TypeForwardedTo(typeof(IEnumerator<>))]
+[assembly: TypeForwardedTo(typeof(IEqualityComparer<>))]
+[assembly: TypeForwardedTo(typeof(IList<>))]
+[assembly: TypeNotForwarded(typeof(IReadOnlyCollection<>))]             // OK
+[assembly: TypeNotForwarded(typeof(IReadOnlyDictionary<,>))]            // OK
+[assembly: TypeNotForwarded(typeof(IReadOnlyList<>))]                   // OK
+[assembly: TypeNotForwarded(typeof(ISet<>))]                            // OK
+[assembly: TypeForwardedTo(typeof(KeyNotFoundException))]
+[assembly: TypeForwardedTo(typeof(KeyValuePair<,>))]
+//  SYSTEM.COLLECTIONS.OBJECTMODEL  -------------------------------------------
+[assembly: TypeForwardedTo(typeof(Collection<>))]
+[assembly: TypeForwardedTo(typeof(ReadOnlyCollection<>))]
+//  SYSTEM.COMPONENTMODEL   ---------------------------------------------------
+[assembly: TypeForwardedTo(typeof(DefaultValueAttribute))]
+[assembly: TypeForwardedTo(typeof(EditorBrowsableAttribute))]
+[assembly: TypeForwardedTo(typeof(EditorBrowsableState))]
+//  SYSTEM.DIAGNOSTICS  -------------------------------------------------------
+[assembly: TypeForwardedTo(typeof(ConditionalAttribute))]
+[assembly: TypeForwardedTo(typeof(DebuggableAttribute))]
+//[assembly: TypeForwardedTo(typeof(DebuggableAttribute.DebuggingModes))]
+//  SYSTEM.GLOBALIZATION    ---------------------------------------------------
+[assembly: TypeForwardedTo(typeof(DateTimeStyles))]
+[assembly: TypeForwardedTo(typeof(NumberStyles))]
+[assembly: TypeNotForwarded(typeof(TimeSpanStyles))]
+//  SYSTEM.IO   ---------------------------------------------------------------
+[assembly: TypeForwardedTo(typeof(DirectoryNotFoundException))]
+//[assembly: TypeForwardedTo(typeof(FileLoadException))]                // OK
+[assembly: TypeForwardedTo(typeof(FileNotFoundException))]
+[assembly: TypeForwardedTo(typeof(IOException))]
+[assembly: TypeForwardedTo(typeof(PathTooLongException))]
+
+//[assembly: TypeForwardedTo(typeof(FieldAccessException))]                 // NA
+//[assembly: TypeForwardedTo(typeof(FormattableString))]                    // NA
+//[assembly: TypeForwardedTo(typeof(InsufficientExecutionStackException))]  // NA
+
+[assembly: TypeForwardedTo(typeof(Lazy<,>))]
 [assembly: TypeForwardedTo(typeof(AssemblyCompanyAttribute))]
 [assembly: TypeForwardedTo(typeof(AssemblyConfigurationAttribute))]
 [assembly: TypeForwardedTo(typeof(AssemblyCopyrightAttribute))]
@@ -232,7 +243,7 @@ using System.Threading;
 [assembly: TypeForwardedTo(typeof(StateMachineAttribute))]
 [assembly: TypeForwardedTo(typeof(StrongBox<>))]
 [assembly: TypeForwardedTo(typeof(TypeForwardedFromAttribute))]
-[assembly: TypeForwardedTo(typeof(TypeForwardedToAttribute))]
+[assembly: TypeNotForwarded(typeof(TypeForwardedToAttribute))]          // OK
 [assembly: TypeForwardedTo(typeof(UnsafeValueTypeAttribute))]
 [assembly: TypeForwardedTo(typeof(ExceptionDispatchInfo))]
 [assembly: TypeForwardedTo(typeof(GCLargeObjectHeapCompactionMode))]

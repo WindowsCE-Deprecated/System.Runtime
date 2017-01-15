@@ -1,7 +1,7 @@
 ﻿{
   "version": "1.0.0-*",
 
-  "dependencies": { },
+  "dependencies": {},
 
   "frameworks": {
     "net35-cf": {
@@ -9,6 +9,9 @@
         "mscorlib": "",
         "System": "",
         "System.Core": ""
+      },
+      "dependencies": {
+        "System.Runtime.Serialization.Formatters.WindowsCE": "1.0.0"
       }
     }
   }
