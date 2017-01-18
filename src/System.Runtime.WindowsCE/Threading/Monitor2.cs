@@ -16,22 +16,14 @@ namespace System.Threading
             if (lockTaken)
                 ThrowLockTakenException();
 
-            try
-            {
-                Monitor.Enter(obj);
-                lockTaken = true;
-            }
-            catch
-            {
-                lockTaken = false;
-                throw;
-            }
+            Monitor.Enter(obj);
+            lockTaken = true;
         }
 
         public static void Exit(object obj)
             => Monitor.Exit(obj);
 
-        [Obsolete("Platform not supported")]
+        [Obsolete(Consts.PlatformNotSupportedDescription)]
         public static bool IsEntered(object obj)
         {
             throw new PlatformNotSupportedException();
@@ -113,7 +105,6 @@ namespace System.Threading
                 if (Monitor.TryEnter(obj))
                 {
                     lockTaken = true;
-                    timeTrack.Stop();
                     return;
                 }
 
@@ -183,7 +174,13 @@ namespace System.Threading
 
                     List<AutoResetEvent> queue;
                     if (_waiters.TryGetValue(obj, out queue))
+                    {
                         queue.Remove(waitHandle);
+
+                        // If last handle for object, remove it from list
+                        if (queue.Count == 0)
+                            _waiters.Remove(obj);
+                    }
                 }
 
                 if (waitersLocked)
@@ -212,144 +209,6 @@ namespace System.Threading
                 throw new ArgumentOutOfRangeException(nameof(timeout));
 
             return (int)tm;
-        }
-    }
-}
-
-namespace Test
-{
-    using System;
-    using System.Threading;
-
-#if NET45
-    public class Lock4
-    {
-
-        public object run(Closure4 closure)
-        {
-            lock (this)
-            {
-                return closure.run();
-            }
-        }
-
-        public void snooze(long timeout)
-        {
-            Monitor.Wait(this, (int)timeout);
-        }
-
-        public void awake()
-        {
-            Monitor.Pulse(this);
-        }
-    }
-#endif
-
-    // Ref: https://www.pcreview.co.uk/threads/best-replacement-for-wait-notify-monitor-wait-monitor-pulse-on-the-compactframework.1299375/#post-3880240
-    public class Lock4
-    {
-        private volatile Thread _lockedByThread;
-
-        private volatile Thread _waitReleased;
-        private volatile Thread _closureReleased;
-
-        AutoResetEvent _waitEvent = new AutoResetEvent(false);
-        AutoResetEvent _closureEvent = new AutoResetEvent(false);
-        object _threadSafeObj = new object();
-
-        public object run(Func<object> closure4)
-        {
-            EnterClosure();
-            object ret;
-            try { ret = closure4(); }
-            finally { AwakeClosure(); }
-
-            return ret;
-        }
-
-        public void Wait(long l)
-        {
-            AwakeClosure();
-            waitWait();
-            EnterClosure();
-        }
-
-        public void Pulse()
-        {
-            SendSignal();
-        }
-
-        private void SendSignal()
-        {
-            lock (_threadSafeObj)
-            {
-                _waitReleased = Thread.CurrentThread;
-                _waitEvent.Set();
-                Thread.Sleep(0);
-
-                if (_waitReleased == Thread.CurrentThread)
-                    _waitEvent.Reset();
-            }
-        }
-
-        private void AwakeClosure()
-        {
-            lock (_threadSafeObj)
-            {
-                RemoveLock();
-                _closureReleased = Thread.CurrentThread;
-                _closureEvent.Set();
-                Thread.Sleep(0);
-
-                if (_closureReleased == Thread.CurrentThread)
-                    _closureEvent.Reset();
-            }
-        }
-
-        private void waitWait()
-        {
-            _waitEvent.WaitOne();
-            _waitReleased = Thread.CurrentThread;
-        }
-
-        private void WaitClosureSignal()
-        {
-            _closureEvent.WaitOne();
-            _closureReleased = Thread.CurrentThread;
-        }
-
-        private void EnterClosure()
-        {
-            while (_lockedByThread != Thread.CurrentThread)
-            {
-                while (!SetLock())
-                {
-                    WaitClosureSignal();
-                }
-            }
-        }
-
-        private bool SetLock()
-        {
-            lock (_threadSafeObj)
-            {
-                if (_lockedByThread == null)
-                {
-                    _lockedByThread = Thread.CurrentThread;
-                    return true;
-                }
-
-                return false;
-            }
-        }
-
-        private void RemoveLock()
-        {
-            lock (_threadSafeObj)
-            {
-                if (_lockedByThread == Thread.CurrentThread)
-                    _lockedByThread = null;
-            }
         }
     }
 }

@@ -12,6 +12,7 @@
         public static int MaxGeneration
             => GC.MaxGeneration;
 
+        [Obsolete(Consts.PlatformNotSupportedDescription)]
         public static void AddMemoryPressure(long bytesAllocated)
         {
             throw new PlatformNotSupportedException();
@@ -20,21 +21,25 @@
         public static void Collect()
             => GC.Collect();
 
+        [Obsolete(Consts.PlatformNotSupportedDescription)]
         public static void Collect(int generation)
         {
             throw new PlatformNotSupportedException();
         }
 
+        [Obsolete(Consts.PlatformNotSupportedDescription)]
         public static void Collect(int generation, GCCollectionMode mode)
         {
             throw new PlatformNotSupportedException();
         }
 
+        [Obsolete(Consts.PlatformNotSupportedDescription)]
         public static void Collect(int generation, GCCollectionMode mode, bool blocking)
         {
             throw new PlatformNotSupportedException();
         }
 
+        [Obsolete(Consts.PlatformNotSupportedDescription)]
         public static int CollectionCount(int generation)
         {
             throw new PlatformNotSupportedException();
@@ -46,6 +51,7 @@
         public static void KeepAlive(object obj)
             => GC.KeepAlive(obj);
 
+        [Obsolete(Consts.PlatformNotSupportedDescription)]
         public static void RemoveMemoryPressure(long bytesAllocated)
         {
             throw new PlatformNotSupportedException();

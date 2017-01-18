@@ -82,7 +82,7 @@ namespace System
         // A dummy delegate used as a  :
         // 1- Flag to avoid recursive call to Value in None and ExecutionAndPublication modes in m_valueFactory
         // 2- Flag to m_threadSafeObj if ExecutionAndPublication mode and the value is known to be initialized
-        static readonly Func<T> ALREADY_INVOKED_SENTINEL = delegate
+        static readonly Func2<T> ALREADY_INVOKED_SENTINEL = delegate
         {
             Debug.Assert(false, "ALREADY_INVOKED_SENTINEL should never be invoked.");
             return default(T);
@@ -96,7 +96,7 @@ namespace System
         // The factory delegate that returns the value.
         // In None and ExecutionAndPublication modes, this will be set to ALREADY_INVOKED_SENTINEL as a flag to avoid recursive calls
         [NonSerialized]
-        private Func<T> m_valueFactory;
+        private Func2<T> m_valueFactory;
 
         // null if it is not thread safe mode
         // LazyHelpers.PUBLICATION_ONLY_SENTINEL if PublicationOnly mode
@@ -180,6 +180,21 @@ namespace System
         /// <exception cref="System.ArgumentNullException"><paramref name="valueFactory"/> is
         /// a null reference (Nothing in Visual Basic).</exception>
         public Lazy(Func<T> valueFactory, bool isThreadSafe)
+            : this(new Func2<T>(valueFactory), isThreadSafe ? LazyThreadSafetyMode.ExecutionAndPublication : LazyThreadSafetyMode.None)
+        { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Threading.Lazy{T}"/> class
+        /// that uses a specified initialization function and a specified thread-safety mode.
+        /// </summary>
+        /// <param name="valueFactory">
+        /// The <see cref="T:System.Func{T}"/> invoked to produce the lazily-initialized value when it is needed.
+        /// </param>
+        /// <param name="isThreadSafe">true if this instance should be usable by multiple threads concurrently; false if the instance will only be used by one thread at a time.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="valueFactory"/> is
+        /// a null reference (Nothing in Visual Basic).</exception>
+        public Lazy(Func2<T> valueFactory, bool isThreadSafe)
             : this(valueFactory, isThreadSafe ? LazyThreadSafetyMode.ExecutionAndPublication : LazyThreadSafetyMode.None)
         { }
 
@@ -195,6 +210,21 @@ namespace System
         /// a null reference (Nothing in Visual Basic).</exception>
         /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="mode"/> mode contains an invalid value.</exception>
         public Lazy(Func<T> valueFactory, LazyThreadSafetyMode mode)
+            : this(new Func2<T>(valueFactory), mode)
+        { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Threading.Lazy{T}"/> class
+        /// that uses a specified initialization function and a specified thread-safety mode.
+        /// </summary>
+        /// <param name="valueFactory">
+        /// The <see cref="T:System.Func{T}"/> invoked to produce the lazily-initialized value when it is needed.
+        /// </param>
+        /// <param name="mode">The lazy thread-safety mode.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="valueFactory"/> is
+        /// a null reference (Nothing in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="mode"/> mode contains an invalid value.</exception>
+        public Lazy(Func2<T> valueFactory, LazyThreadSafetyMode mode)
         {
             if (valueFactory == null)
                 throw new ArgumentNullException(nameof(valueFactory));
@@ -421,7 +451,7 @@ namespace System
                     if (mode != LazyThreadSafetyMode.PublicationOnly && m_valueFactory == ALREADY_INVOKED_SENTINEL)
                         throw new InvalidOperationException("Should not try to create the value more than once");
 
-                    Func<T> factory = m_valueFactory;
+                    Func2<T> factory = m_valueFactory;
                     if (mode != LazyThreadSafetyMode.PublicationOnly) // only detect recursion on None and ExecutionAndPublication modes
                     {
                         m_valueFactory = ALREADY_INVOKED_SENTINEL;

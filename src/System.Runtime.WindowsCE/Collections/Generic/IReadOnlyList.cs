@@ -21,4 +21,12 @@ namespace System.Collections.Generic
     {
         T this[int index] { get; }
     }
+
+    /// <summary>
+    /// Provides a read-only, view of a generic list.
+    /// </summary>
+    public interface IReadOnlyList2<out T> : IReadOnlyCollection2<T>
+    {
+        T this[int index] { get; }
+    }
 }

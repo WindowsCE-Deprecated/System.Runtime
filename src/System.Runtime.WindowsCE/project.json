@@ -11,7 +11,7 @@
         "System.Core": ""
       },
       "dependencies": {
-        "System.Runtime.Serialization.Formatters.WindowsCE": "1.0.0"
+        "System.Runtime.Serialization.Formatters.WindowsCE": "1.0.1"
       }
     }
   }

@@ -21,4 +21,12 @@ namespace System.Collections.Generic
     {
         int Count { get; }
     }
+
+    /// <summary>
+    /// Provides a read-only, view of a generic list.
+    /// </summary>
+    public interface IReadOnlyCollection2<out T> : IEnumerable, IEnumerable2<T>
+    {
+        int Count { get; }
+    }
 }
