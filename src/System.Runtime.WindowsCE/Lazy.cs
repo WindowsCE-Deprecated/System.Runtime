@@ -21,6 +21,7 @@ using System.Security.Permissions;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Threading;
+using System.Runtime.ExceptionServices;
 
 namespace System
 {
@@ -71,10 +72,10 @@ namespace System
         /// </summary>
         class LazyInternalExceptionHolder
         {
-            internal readonly Exception m_edi;
+            internal readonly ExceptionDispatchInfo m_edi;
             internal LazyInternalExceptionHolder(Exception ex)
             {
-                m_edi = ex;
+                m_edi = ExceptionDispatchInfo.Capture(ex);
             }
         }
         #endregion
@@ -330,7 +331,7 @@ namespace System
 
                     LazyInternalExceptionHolder exc = m_boxed as LazyInternalExceptionHolder;
                     Debug.Assert(exc != null);
-                    throw new InvalidOperationException("An exception occurred trying to initialize value", exc.m_edi);
+                    exc.m_edi.Throw();
                 }
 
                 // Fall through to the slow path.
@@ -393,7 +394,7 @@ namespace System
                         {
                             LazyInternalExceptionHolder exHolder = m_boxed as LazyInternalExceptionHolder;
                             Debug.Assert(exHolder != null);
-                            throw new InvalidOperationException("An exception occurred trying to initialize value", exHolder.m_edi);
+                            exHolder.m_edi.Throw();
                         }
                     }
                 }

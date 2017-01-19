@@ -1,9 +1,13 @@
-﻿{
+{
   "version": "1.0.0-*",
 
   "dependencies": {},
 
   "frameworks": {
-    "net35-cf": {}
+    "net35-cf": {
+      "dependencies": {
+        "System.Runtime.WindowsCE": "1.0.0-*"
+      }
+    }
   }
 }

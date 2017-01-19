@@ -1,8 +1,6 @@
 ﻿{
   "version": "1.0.0-*",
 
-  "dependencies": {},
-
   "frameworks": {
     "net35-cf": {
       "frameworkAssemblies": {
@@ -13,6 +11,7 @@
       "dependencies": {
         "System.Runtime.Serialization.Formatters.WindowsCE": "1.0.1"
       }
-    }
+    },
+    "net35": {}
   }
 }
