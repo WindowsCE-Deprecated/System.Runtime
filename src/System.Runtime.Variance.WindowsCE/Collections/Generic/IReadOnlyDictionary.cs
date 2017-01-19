@@ -17,8 +17,8 @@ namespace System.Collections.Generic
     /// <summary>
     /// Provides a read-only view of a generic dictionary.
     /// </summary>
-    public interface IReadOnlyDictionary<TKey, TValue>
-        : IReadOnlyCollection<KeyValuePair<TKey, TValue>>
+    public interface IReadOnlyDictionary2<TKey, TValue>
+        : IReadOnlyCollection2<KeyValuePair<TKey, TValue>>
     {
         bool ContainsKey(TKey key);
         bool TryGetValue(TKey key, out TValue value);

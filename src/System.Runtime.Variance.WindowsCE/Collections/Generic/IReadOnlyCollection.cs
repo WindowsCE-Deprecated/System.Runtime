@@ -4,7 +4,7 @@
 
 /*============================================================
 **
-** Interface:  IReadOnlyList<T>
+** Interface:  IReadOnlyCollection<T>
 ** 
 ** 
 **
@@ -17,8 +17,8 @@ namespace System.Collections.Generic
     /// <summary>
     /// Provides a read-only, view of a generic list.
     /// </summary>
-    public interface IReadOnlyList<T> : IReadOnlyCollection<T>
+    public interface IReadOnlyCollection2<out T> : IEnumerable, IEnumerable2<T>
     {
-        T this[int index] { get; }
+        int Count { get; }
     }
 }
