@@ -12,6 +12,10 @@
         "System.Runtime.Serialization.Formatters.WindowsCE": "1.0.1"
       }
     },
-    "net35": {}
+    "net35": {
+      "buildOptions": {
+        "nowarn": [ "CS0436", "CS0114" ]
+      }
+    }
   }
 }

@@ -137,6 +137,7 @@ using System.Threading;
 [assembly: TypeForwardedTo(typeof(PlatformNotSupportedException))]
 [assembly: TypeForwardedTo(typeof(Predicate<>))]
 [assembly: TypeForwardedTo(typeof(RankException))]
+[assembly: TypeNotForwarded(typeof(Lazy<,>))]                           // OK
 //  SYSTEM.COLLECTIONS  -------------------------------------------------------
 [assembly: TypeForwardedTo(typeof(DictionaryEntry))]
 [assembly: TypeForwardedTo(typeof(ICollection))]
@@ -184,12 +185,7 @@ using System.Threading;
 [assembly: TypeForwardedTo(typeof(FileNotFoundException))]
 [assembly: TypeForwardedTo(typeof(IOException))]
 [assembly: TypeForwardedTo(typeof(PathTooLongException))]
-
-//[assembly: TypeForwardedTo(typeof(FieldAccessException))]                 // NA
-//[assembly: TypeForwardedTo(typeof(FormattableString))]                    // NA
-//[assembly: TypeForwardedTo(typeof(InsufficientExecutionStackException))]  // NA
-
-[assembly: TypeForwardedTo(typeof(Lazy<,>))]
+//  SYSTEM.REFLECTION   -------------------------------------------------------
 [assembly: TypeForwardedTo(typeof(AssemblyCompanyAttribute))]
 [assembly: TypeForwardedTo(typeof(AssemblyConfigurationAttribute))]
 [assembly: TypeForwardedTo(typeof(AssemblyCopyrightAttribute))]
@@ -197,64 +193,73 @@ using System.Threading;
 [assembly: TypeForwardedTo(typeof(AssemblyDefaultAliasAttribute))]
 [assembly: TypeForwardedTo(typeof(AssemblyDelaySignAttribute))]
 [assembly: TypeForwardedTo(typeof(AssemblyDescriptionAttribute))]
-[assembly: TypeForwardedTo(typeof(AssemblyFileVersionAttribute))]
+[assembly: TypeNotForwarded(typeof(AssemblyFileVersionAttribute))]      // OK
 [assembly: TypeForwardedTo(typeof(AssemblyFlagsAttribute))]
 [assembly: TypeForwardedTo(typeof(AssemblyInformationalVersionAttribute))]
 [assembly: TypeForwardedTo(typeof(AssemblyKeyFileAttribute))]
 [assembly: TypeForwardedTo(typeof(AssemblyKeyNameAttribute))]
-[assembly: TypeForwardedTo(typeof(AssemblyMetadataAttribute))]
+[assembly: TypeNotForwarded(typeof(AssemblyMetadataAttribute))]
 [assembly: TypeForwardedTo(typeof(AssemblyNameFlags))]
 [assembly: TypeForwardedTo(typeof(AssemblyProductAttribute))]
-[assembly: TypeForwardedTo(typeof(AssemblySignatureKeyAttribute))]
+[assembly: TypeNotForwarded(typeof(AssemblySignatureKeyAttribute))]
 [assembly: TypeForwardedTo(typeof(AssemblyTitleAttribute))]
 [assembly: TypeForwardedTo(typeof(AssemblyTrademarkAttribute))]
 [assembly: TypeForwardedTo(typeof(AssemblyVersionAttribute))]
 [assembly: TypeForwardedTo(typeof(DefaultMemberAttribute))]
-[assembly: TypeForwardedTo(typeof(ProcessorArchitecture))]
+//  SYSTEM.RUNTIME.COMPILERSERVICES -------------------------------------------
 [assembly: TypeForwardedTo(typeof(AccessedThroughPropertyAttribute))]
-[assembly: TypeForwardedTo(typeof(AsyncStateMachineAttribute))]
-[assembly: TypeForwardedTo(typeof(CallerFilePathAttribute))]
-[assembly: TypeForwardedTo(typeof(CallerLineNumberAttribute))]
-[assembly: TypeForwardedTo(typeof(CallerMemberNameAttribute))]
-[assembly: TypeForwardedTo(typeof(CompilationRelaxationsAttribute))]
-[assembly: TypeForwardedTo(typeof(CompilerGeneratedAttribute))]
-[assembly: TypeForwardedTo(typeof(ConditionalWeakTable<,>))]
-[assembly: TypeForwardedTo(typeof(ConditionalWeakTable<,>.CreateValueCallback))]
-[assembly: TypeForwardedTo(typeof(CustomConstantAttribute))]
-[assembly: TypeForwardedTo(typeof(DateTimeConstantAttribute))]
+[assembly: TypeNotForwarded(typeof(AsyncStateMachineAttribute))]        // OK
+[assembly: TypeNotForwarded(typeof(CallerFilePathAttribute))]           // OK
+[assembly: TypeNotForwarded(typeof(CallerLineNumberAttribute))]         // OK
+[assembly: TypeNotForwarded(typeof(CallerMemberNameAttribute))]         // OK
+[assembly: TypeNotForwarded(typeof(CompilationRelaxationsAttribute))]   // OK
+[assembly: TypeForwardedTo(typeof(CompilerGeneratedAttribute))]         // OK
+[assembly: TypeForwardedTo(typeof(CustomConstantAttribute))]            // OK
+[assembly: TypeForwardedTo(typeof(DateTimeConstantAttribute))]          // OK
 [assembly: TypeForwardedTo(typeof(DecimalConstantAttribute))]
-[assembly: TypeForwardedTo(typeof(DisablePrivateReflectionAttribute))]
-[assembly: TypeForwardedTo(typeof(ExtensionAttribute))]
-[assembly: TypeForwardedTo(typeof(FixedBufferAttribute))]
-[assembly: TypeForwardedTo(typeof(FormattableStringFactory))]
-[assembly: TypeForwardedTo(typeof(IndexerNameAttribute))]
-[assembly: TypeForwardedTo(typeof(InternalsVisibleToAttribute))]
-[assembly: TypeForwardedTo(typeof(IsConst))]
-[assembly: TypeForwardedTo(typeof(IStrongBox))]
-[assembly: TypeForwardedTo(typeof(IsVolatile))]
-[assembly: TypeForwardedTo(typeof(IteratorStateMachineAttribute))]
+[assembly: TypeForwardedTo(typeof(ExtensionAttribute))]                 // OK
+[assembly: TypeForwardedTo(typeof(FixedBufferAttribute))]               // OK
+[assembly: TypeForwardedTo(typeof(IndexerNameAttribute))]               // OK
+[assembly: TypeForwardedTo(typeof(InternalsVisibleToAttribute))]        // OK
+[assembly: TypeNotForwarded(typeof(IStrongBox))]                        // OK
+[assembly: TypeForwardedTo(typeof(IsVolatile))]                         // OK
+[assembly: TypeNotForwarded(typeof(IteratorStateMachineAttribute))]     // OK
 [assembly: TypeForwardedTo(typeof(MethodImplAttribute))]
 [assembly: TypeForwardedTo(typeof(MethodImplOptions))]
-[assembly: TypeForwardedTo(typeof(ReferenceAssemblyAttribute))]
-[assembly: TypeForwardedTo(typeof(RuntimeCompatibilityAttribute))]
-[assembly: TypeForwardedTo(typeof(RuntimeHelpers))]
-[assembly: TypeForwardedTo(typeof(RuntimeHelpers.CleanupCode))]
-[assembly: TypeForwardedTo(typeof(RuntimeHelpers.TryCode))]
-[assembly: TypeForwardedTo(typeof(StateMachineAttribute))]
-[assembly: TypeForwardedTo(typeof(StrongBox<>))]
-[assembly: TypeForwardedTo(typeof(TypeForwardedFromAttribute))]
+[assembly: TypeNotForwarded(typeof(ReferenceAssemblyAttribute))]        // OK
+[assembly: TypeNotForwarded(typeof(RuntimeCompatibilityAttribute))]     // OK
+[assembly: TypeNotForwarded(typeof(StateMachineAttribute))]             // OK
+[assembly: TypeNotForwarded(typeof(StrongBox<>))]                       // OK
+[assembly: TypeNotForwarded(typeof(TypeForwardedFromAttribute))]        // OK
 [assembly: TypeNotForwarded(typeof(TypeForwardedToAttribute))]          // OK
-[assembly: TypeForwardedTo(typeof(UnsafeValueTypeAttribute))]
-[assembly: TypeForwardedTo(typeof(ExceptionDispatchInfo))]
-[assembly: TypeForwardedTo(typeof(GCLargeObjectHeapCompactionMode))]
-[assembly: TypeForwardedTo(typeof(GCLatencyMode))]
-[assembly: TypeForwardedTo(typeof(GCSettings))]
+[assembly: TypeForwardedTo(typeof(UnsafeValueTypeAttribute))]           // OK
+//  SYSTEM.RUNTIME  -----------------------------------------------------------
+[assembly: TypeForwardedTo(typeof(RuntimeHelpers))]
+//[assembly: TypeForwardedTo(typeof(RuntimeHelpers.CleanupCode))]       // MISS
+//[assembly: TypeForwardedTo(typeof(RuntimeHelpers.TryCode))]           // MISS
+[assembly: TypeNotForwarded(typeof(GCLatencyMode))]                     // OK
+[assembly: TypeNotForwarded(typeof(GCSettings))]                        // OK
+//  SYSTEM.RUNTIME.EXCEPTIONSERVICES    ---------------------------------------
+[assembly: TypeNotForwarded(typeof(ExceptionDispatchInfo))]             // OK
+//  SYSTEM.RUNTIME.INTEROPSERVICES  -------------------------------------------
 [assembly: TypeForwardedTo(typeof(CharSet))]
 [assembly: TypeForwardedTo(typeof(ComVisibleAttribute))]
 [assembly: TypeForwardedTo(typeof(FieldOffsetAttribute))]
 [assembly: TypeForwardedTo(typeof(LayoutKind))]
 [assembly: TypeForwardedTo(typeof(OutAttribute))]
 [assembly: TypeForwardedTo(typeof(StructLayoutAttribute))]
+
+//[assembly: TypeForwardedTo(typeof(FieldAccessException))]                 // NA
+//[assembly: TypeForwardedTo(typeof(FormattableString))]                    // NA
+//[assembly: TypeForwardedTo(typeof(InsufficientExecutionStackException))]  // NA
+//[assembly: TypeForwardedTo(typeof(ProcessorArchitecture))]                // NA
+//[assembly: TypeForwardedTo(typeof(ConditionalWeakTable<,>))]              // NA
+//[assembly: TypeForwardedTo(typeof(ConditionalWeakTable<,>.CreateValueCallback))]
+//[assembly: TypeForwardedTo(typeof(DisablePrivateReflectionAttribute))]    // NA
+//[assembly: TypeForwardedTo(typeof(FormattableStringFactory))]             // NA
+//[assembly: TypeForwardedTo(typeof(IsConst))]                              // NA
+//[assembly: TypeForwardedTo(typeof(GCLargeObjectHeapCompactionMode))]      // NA
+
 [assembly: TypeForwardedTo(typeof(TargetFrameworkAttribute))]
 [assembly: TypeForwardedTo(typeof(RuntimeFieldHandle))]
 [assembly: TypeForwardedTo(typeof(RuntimeMethodHandle))]
