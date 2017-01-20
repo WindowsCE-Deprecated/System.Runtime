@@ -138,6 +138,18 @@ using System.Threading;
 [assembly: TypeForwardedTo(typeof(Predicate<>))]
 [assembly: TypeForwardedTo(typeof(RankException))]
 [assembly: TypeNotForwarded(typeof(Lazy<,>))]                           // OK
+[assembly: TypeForwardedTo(typeof(RuntimeFieldHandle))]
+[assembly: TypeForwardedTo(typeof(RuntimeMethodHandle))]
+[assembly: TypeForwardedTo(typeof(RuntimeTypeHandle))]
+[assembly: TypeForwardedTo(typeof(sbyte))]
+[assembly: TypeForwardedTo(typeof(float))]
+[assembly: TypeNotForwarded(typeof(STAThreadAttribute))]                // OK
+[assembly: TypeForwardedTo(typeof(string))]                             // OK
+[assembly: TypeForwardedTo(typeof(StringComparison))]
+[assembly: TypeNotForwarded(typeof(StringSplitOptions))]                // OK
+[assembly: TypeNotForwarded(typeof(ThreadStaticAttribute))]             // OK
+[assembly: TypeForwardedTo(typeof(TimeoutException))]
+[assembly: TypeForwardedTo(typeof(TimeSpan))]
 //  SYSTEM.COLLECTIONS  -------------------------------------------------------
 [assembly: TypeForwardedTo(typeof(DictionaryEntry))]
 [assembly: TypeForwardedTo(typeof(ICollection))]
@@ -248,6 +260,21 @@ using System.Threading;
 [assembly: TypeForwardedTo(typeof(LayoutKind))]
 [assembly: TypeForwardedTo(typeof(OutAttribute))]
 [assembly: TypeForwardedTo(typeof(StructLayoutAttribute))]
+//  SYSTEM.RUNTIME.VERSIONING   -----------------------------------------------
+[assembly: TypeNotForwarded(typeof(TargetFrameworkAttribute))]          // OK
+//  SYSTEM.SECURITY -----------------------------------------------------------
+[assembly: TypeForwardedTo(typeof(AllowPartiallyTrustedCallersAttribute))]
+[assembly: TypeForwardedTo(typeof(SecurityCriticalAttribute))]
+[assembly: TypeForwardedTo(typeof(SecurityException))]
+[assembly: TypeForwardedTo(typeof(SecuritySafeCriticalAttribute))]
+[assembly: TypeForwardedTo(typeof(SecurityTransparentAttribute))]
+[assembly: TypeForwardedTo(typeof(VerificationException))]
+//  SYSTEM.THREADING    -------------------------------------------------------
+[assembly: TypeNotForwarded(typeof(LazyThreadSafetyMode))]
+[assembly: TypeForwardedTo(typeof(Timeout))]
+[assembly: TypeForwardedTo(typeof(WaitHandle))]
+//  SYSTEM.TEXT ---------------------------------------------------------------
+[assembly: TypeForwardedTo(typeof(StringBuilder))]
 
 //[assembly: TypeForwardedTo(typeof(FieldAccessException))]                 // NA
 //[assembly: TypeForwardedTo(typeof(FormattableString))]                    // NA
@@ -260,29 +287,6 @@ using System.Threading;
 //[assembly: TypeForwardedTo(typeof(IsConst))]                              // NA
 //[assembly: TypeForwardedTo(typeof(GCLargeObjectHeapCompactionMode))]      // NA
 
-[assembly: TypeForwardedTo(typeof(TargetFrameworkAttribute))]
-[assembly: TypeForwardedTo(typeof(RuntimeFieldHandle))]
-[assembly: TypeForwardedTo(typeof(RuntimeMethodHandle))]
-[assembly: TypeForwardedTo(typeof(RuntimeTypeHandle))]
-[assembly: TypeForwardedTo(typeof(sbyte))]
-[assembly: TypeForwardedTo(typeof(AllowPartiallyTrustedCallersAttribute))]
-[assembly: TypeForwardedTo(typeof(SecurityCriticalAttribute))]
-[assembly: TypeForwardedTo(typeof(SecurityException))]
-[assembly: TypeForwardedTo(typeof(SecuritySafeCriticalAttribute))]
-[assembly: TypeForwardedTo(typeof(SecurityTransparentAttribute))]
-[assembly: TypeForwardedTo(typeof(VerificationException))]
-[assembly: TypeForwardedTo(typeof(float))]
-[assembly: TypeForwardedTo(typeof(STAThreadAttribute))]
-[assembly: TypeForwardedTo(typeof(string))]
-[assembly: TypeForwardedTo(typeof(StringComparison))]
-[assembly: TypeForwardedTo(typeof(StringSplitOptions))]
-[assembly: TypeForwardedTo(typeof(StringBuilder))]
-[assembly: TypeForwardedTo(typeof(LazyThreadSafetyMode))]
-[assembly: TypeForwardedTo(typeof(Timeout))]
-[assembly: TypeForwardedTo(typeof(WaitHandle))]
-[assembly: TypeForwardedTo(typeof(ThreadStaticAttribute))]
-[assembly: TypeForwardedTo(typeof(TimeoutException))]
-[assembly: TypeForwardedTo(typeof(TimeSpan))]
 [assembly: TypeForwardedTo(typeof(TimeZoneInfo))]
 [assembly: TypeForwardedTo(typeof(TimeZoneInfo.AdjustmentRule))]
 [assembly: TypeForwardedTo(typeof(TimeZoneInfo.TransitionTime))]
