@@ -37,7 +37,7 @@ using System.Threading;
 namespace System.Runtime.Tests
 {
     [TestClass]
-    public class LazyTest
+    public class LazyTests
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]

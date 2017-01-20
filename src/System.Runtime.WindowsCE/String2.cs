@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿// Ref: https://github.com/dotnet/coreclr
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
