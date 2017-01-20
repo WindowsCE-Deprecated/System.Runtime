@@ -1,4 +1,4 @@
-﻿#if DEBUG
+﻿#if DEBUG2
 
 using System;
 using System.Collections;
