@@ -1,4 +1,4 @@
-﻿#if DEBUG2
+﻿#if DEBUG
 
 using System;
 using System.Collections;
@@ -150,6 +150,39 @@ using System.Threading;
 [assembly: TypeNotForwarded(typeof(ThreadStaticAttribute))]             // OK
 [assembly: TypeForwardedTo(typeof(TimeoutException))]
 [assembly: TypeForwardedTo(typeof(TimeSpan))]
+[assembly: TypeForwardedTo(typeof(TimeZoneInfo))]
+[assembly: TypeForwardedTo(typeof(TimeZoneInfo.AdjustmentRule))]
+[assembly: TypeForwardedTo(typeof(TimeZoneInfo.TransitionTime))]
+[assembly: TypeNotForwarded(typeof(Tuple))]                             // OK
+[assembly: TypeNotForwarded(typeof(Tuple<>))]                           // OK
+[assembly: TypeNotForwarded(typeof(Tuple<,>))]                          // OK
+[assembly: TypeNotForwarded(typeof(Tuple<,,>))]                         // OK
+[assembly: TypeNotForwarded(typeof(Tuple<,,,>))]                        // OK
+[assembly: TypeNotForwarded(typeof(Tuple<,,,,>))]                       // OK
+[assembly: TypeNotForwarded(typeof(Tuple<,,,,,>))]                      // OK
+[assembly: TypeNotForwarded(typeof(Tuple<,,,,,,>))]                     // OK
+[assembly: TypeNotForwarded(typeof(Tuple<,,,,,,,>))]                    // OK
+[assembly: TypeForwardedTo(typeof(Type))]
+[assembly: TypeNotForwarded(typeof(TypeAccessException))]
+[assembly: TypeForwardedTo(typeof(TypeCode))]
+[assembly: TypeNotForwarded(typeof(TypeInitializationException))]
+[assembly: TypeForwardedTo(typeof(TypeLoadException))]
+[assembly: TypeForwardedTo(typeof(ushort))]
+[assembly: TypeForwardedTo(typeof(uint))]
+[assembly: TypeForwardedTo(typeof(ulong))]
+[assembly: TypeForwardedTo(typeof(UIntPtr))]
+[assembly: TypeForwardedTo(typeof(UnauthorizedAccessException))]
+[assembly: TypeForwardedTo(typeof(Uri))]
+[assembly: TypeForwardedTo(typeof(UriComponents))]
+[assembly: TypeForwardedTo(typeof(UriFormat))]
+[assembly: TypeForwardedTo(typeof(UriFormatException))]
+[assembly: TypeForwardedTo(typeof(UriHostNameType))]
+[assembly: TypeForwardedTo(typeof(UriKind))]
+[assembly: TypeForwardedTo(typeof(ValueType))]
+[assembly: TypeForwardedTo(typeof(Version))]
+[assembly: TypeForwardedTo(typeof(void))]
+[assembly: TypeForwardedTo(typeof(WeakReference))]
+[assembly: TypeNotForwarded(typeof(WeakReference<>))]
 //  SYSTEM.COLLECTIONS  -------------------------------------------------------
 [assembly: TypeForwardedTo(typeof(DictionaryEntry))]
 [assembly: TypeForwardedTo(typeof(ICollection))]
@@ -286,39 +319,5 @@ using System.Threading;
 //[assembly: TypeForwardedTo(typeof(FormattableStringFactory))]             // NA
 //[assembly: TypeForwardedTo(typeof(IsConst))]                              // NA
 //[assembly: TypeForwardedTo(typeof(GCLargeObjectHeapCompactionMode))]      // NA
-
-[assembly: TypeForwardedTo(typeof(TimeZoneInfo))]
-[assembly: TypeForwardedTo(typeof(TimeZoneInfo.AdjustmentRule))]
-[assembly: TypeForwardedTo(typeof(TimeZoneInfo.TransitionTime))]
-[assembly: TypeForwardedTo(typeof(Tuple))]
-[assembly: TypeForwardedTo(typeof(Tuple<>))]
-[assembly: TypeForwardedTo(typeof(Tuple<,>))]
-[assembly: TypeForwardedTo(typeof(Tuple<,,>))]
-[assembly: TypeForwardedTo(typeof(Tuple<,,,>))]
-[assembly: TypeForwardedTo(typeof(Tuple<,,,,>))]
-[assembly: TypeForwardedTo(typeof(Tuple<,,,,,>))]
-[assembly: TypeForwardedTo(typeof(Tuple<,,,,,,>))]
-[assembly: TypeForwardedTo(typeof(Tuple<,,,,,,,>))]
-[assembly: TypeForwardedTo(typeof(Type))]
-[assembly: TypeForwardedTo(typeof(TypeAccessException))]
-[assembly: TypeForwardedTo(typeof(TypeCode))]
-[assembly: TypeForwardedTo(typeof(TypeInitializationException))]
-[assembly: TypeForwardedTo(typeof(TypeLoadException))]
-[assembly: TypeForwardedTo(typeof(ushort))]
-[assembly: TypeForwardedTo(typeof(uint))]
-[assembly: TypeForwardedTo(typeof(ulong))]
-[assembly: TypeForwardedTo(typeof(UIntPtr))]
-[assembly: TypeForwardedTo(typeof(UnauthorizedAccessException))]
-[assembly: TypeForwardedTo(typeof(Uri))]
-[assembly: TypeForwardedTo(typeof(UriComponents))]
-[assembly: TypeForwardedTo(typeof(UriFormat))]
-[assembly: TypeForwardedTo(typeof(UriFormatException))]
-[assembly: TypeForwardedTo(typeof(UriHostNameType))]
-[assembly: TypeForwardedTo(typeof(UriKind))]
-[assembly: TypeForwardedTo(typeof(ValueType))]
-[assembly: TypeForwardedTo(typeof(Version))]
-[assembly: TypeForwardedTo(typeof(void))]
-[assembly: TypeForwardedTo(typeof(WeakReference))]
-[assembly: TypeForwardedTo(typeof(WeakReference<>))]
 
 #endif
