@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Internal
 {
+#pragma warning disable 0649
     internal static class NativeMethods
     {
         public const int ERROR_NOT_SUPPORTED = 0x32;
@@ -530,4 +531,5 @@ namespace Internal
         ALLEVENTS = (INPUT | POSTMESSAGE | TIMER | PAINT),
         ALLINPUT = (INPUT | POSTMESSAGE | TIMER | PAINT | SENDMESSAGE),
     }
+#pragma warning restore 0649
 }

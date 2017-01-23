@@ -2,9 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-//
+using System;
+using System.Threading;
 
+#if NET35_CF
 namespace System.Threading
+#else
+namespace Mock.System.Threading
+#endif
 {
     //
     // Methods for accessing memory with volatile semantics.  These are preferred over Thread.VolatileRead

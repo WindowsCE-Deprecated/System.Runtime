@@ -2,7 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+
+#if NET35_CF
 namespace System
+#else
+namespace Mock.System
+#endif
 {
     // TypeAccessException derives from TypeLoadException rather than MemberAccessException because in
     // pre-v4 releases of the runtime TypeLoadException was used in lieu of a TypeAccessException.

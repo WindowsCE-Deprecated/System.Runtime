@@ -14,6 +14,7 @@
 //
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
+using System;
 using System.Runtime;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -21,9 +22,19 @@ using System.Security.Permissions;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Threading;
-using System.Runtime.ExceptionServices;
 
+#if NET35_CF
+using System.Runtime.ExceptionServices;
+#else
+using Mock.System.Runtime.ExceptionServices;
+using Mock.System.Threading;
+#endif
+
+#if NET35_CF
 namespace System
+#else
+namespace Mock.System
+#endif
 {
     // Lazy<T> is generic, but not all of its state needs to be generic.  Avoid creating duplicate
     // objects per instantiation by putting them here.
@@ -51,7 +62,7 @@ namespace System
     public class Lazy<T>
     {
 
-        #region Inner classes
+#region Inner classes
         /// <summary>
         /// wrapper class to box the initialized value, this is mainly created to avoid boxing/unboxing the value each time the value is called in case T is 
         /// a value type
@@ -78,7 +89,7 @@ namespace System
                 m_edi = ExceptionDispatchInfo.Capture(ex);
             }
         }
-        #endregion
+#endregion
 
         // A dummy delegate used as a  :
         // 1- Flag to avoid recursive call to Value in None and ExecutionAndPublication modes in m_valueFactory
@@ -450,7 +461,7 @@ namespace System
                 }
                 catch (MissingMethodException)
                 {
-                    Exception ex = new System.MissingMemberException(string.Format("The type {0} does not have parameterless constructor", typeof(T).FullName));
+                    Exception ex = new MissingMemberException(string.Format("The type {0} does not have parameterless constructor", typeof(T).FullName));
                     if (mode != LazyThreadSafetyMode.PublicationOnly) // don't cache the exception for PublicationOnly mode
                         m_boxed = new LazyInternalExceptionHolder(ex);
                     throw ex;

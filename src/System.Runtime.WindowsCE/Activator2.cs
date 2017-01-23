@@ -1,6 +1,11 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
+#if NET35_CF
 namespace System
+#else
+namespace Mock.System
+#endif
 {
     public static class Activator2
     {

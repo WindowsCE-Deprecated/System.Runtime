@@ -27,12 +27,12 @@
 //
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Reflection;
+using Mock.System;
+using Mock.System.Threading;
 using System.Threading;
 
-#pragma warning disable 219
-#pragma warning disable 168
+// The variable 'ex' is declared but never used
+#pragma warning disable 0168
 
 namespace System.Runtime.Tests
 {
@@ -118,7 +118,7 @@ namespace System.Runtime.Tests
 
             Assert.AreEqual(0, l1.Value);
 
-            var l2 = new Lazy<int>(delegate() { return 42; });
+            var l2 = new Lazy<int>(delegate () { return 42; });
 
             Assert.AreEqual(42, l2.Value);
         }
@@ -130,13 +130,13 @@ namespace System.Runtime.Tests
         {
             counter = 42;
 
-            var l = new Lazy<int>(delegate() { return counter++; }, true);
+            var l = new Lazy<int>(delegate () { return counter++; }, true);
 
             object monitor = new object();
             var threads = new Thread[10];
             for (int i = 0; i < 10; ++i)
             {
-                threads[i] = new Thread(delegate()
+                threads[i] = new Thread(delegate ()
                 {
                     lock (monitor)
                     {
@@ -374,3 +374,5 @@ namespace System.Runtime.Tests
 
     }
 }
+
+#pragma warning restore 0168

@@ -1,4 +1,11 @@
-﻿namespace System.Collections.Generic
+﻿using System.Collections;
+using System.Collections.Generic;
+
+#if NET35_CF
+namespace System.Collections.Generic
+#else
+namespace Mock.System.Collections.Generic
+#endif
 {
     public interface ISet<T> : ICollection<T>, IEnumerable, IEnumerable<T>
     {

@@ -1,4 +1,8 @@
-﻿namespace System.Runtime.CompilerServices
+﻿#if NET35_CF
+namespace System.Runtime.CompilerServices
+#else
+namespace Mock.System.Runtime.CompilerServices
+#endif
 {
     public class StrongBox<T> : IStrongBox
     {

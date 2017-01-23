@@ -10,10 +10,16 @@
 //
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-
+using System;
 using System.Security.Permissions;
 using System.Diagnostics;
+using System.Threading;
+
+#if NET35_CF
 namespace System.Threading
+#else
+namespace Mock.System.Threading
+#endif
 {
 
     /// <summary>

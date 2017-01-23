@@ -1,4 +1,10 @@
-﻿namespace System.Runtime.CompilerServices
+﻿using System;
+
+#if NET35_CF
+namespace System.Runtime.CompilerServices
+#else
+namespace Mock.System.Runtime.CompilerServices
+#endif
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum | AttributeTargets.Interface | AttributeTargets.Delegate, Inherited = false, AllowMultiple = false)]
     public sealed class TypeForwardedFromAttribute : Attribute

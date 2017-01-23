@@ -1,6 +1,11 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
+#if NET35_CF
 namespace System
+#else
+namespace Mock.System
+#endif
 {
     /// <summary>
     /// The ArgumentException is thrown when an argument does not meet

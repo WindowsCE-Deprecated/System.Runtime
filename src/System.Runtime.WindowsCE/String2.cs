@@ -1,10 +1,15 @@
 ﻿// Ref: https://github.com/dotnet/coreclr
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 
+#if NET35_CF
 namespace System
+#else
+namespace Mock.System
+#endif
 {
     [Flags]
     public enum StringSplitOptions
@@ -76,7 +81,34 @@ namespace System
             if (values == null)
                 throw new ArgumentNullException(nameof(values));
 
-            return string.Concat(values.ToArray());
+            string[] castValues = values as string[];
+            if (castValues != null)
+                return string.Concat(castValues);
+
+            using (IEnumerator<string> en = values.GetEnumerator())
+            {
+                if (!en.MoveNext())
+                    return string.Empty;
+
+                // We called MoveNext once, so this will be the first item
+                string firstString = en.Current;
+
+                // If there's only 1 item, simply return that
+                if (!en.MoveNext())
+                {
+                    // We have to handle the case of currentValue
+                    // being null
+                    return firstString ?? string.Empty;
+                }
+
+                StringBuilder result = new StringBuilder(firstString);
+                do
+                {
+                    result.Append(en.Current);
+                } while (en.MoveNext());
+
+                return result.ToString();
+            }
         }
 
         public static string Concat(object arg0)
@@ -177,7 +209,36 @@ namespace System
             if (values == null)
                 throw new ArgumentNullException(nameof(values));
 
-            return string.Join(separator, values.ToArray());
+            string[] castValues = values as string[];
+            if (castValues != null)
+                return string.Join(separator, castValues);
+
+            using (IEnumerator<string> en = values.GetEnumerator())
+            {
+                if (!en.MoveNext())
+                    return string.Empty;
+
+                // We called MoveNext once, so this will be the first item
+                string firstString = en.Current;
+
+                // If there's only 1 item, simply return that
+                if (!en.MoveNext())
+                {
+                    // We have to handle the case of currentValue
+                    // being null
+                    return firstString ?? string.Empty;
+                }
+
+                StringBuilder result = new StringBuilder(firstString);
+                do
+                {
+                    result.Append(separator);
+                    result.Append(en.Current);
+
+                } while (en.MoveNext());
+
+                return result.ToString();
+            }
         }
 
         public static string Join(string separator, params object[] values)
@@ -270,7 +331,7 @@ namespace System
         }
 
         public static string[] Split(this string s, char[] separator, StringSplitOptions options)
-            => Split(s, separator, int.MaxValue, StringSplitOptions.None);
+            => Split(s, separator, int.MaxValue, options);
 
         public static string[] Split(this string s, string[] separator, int count, StringSplitOptions options)
         {
@@ -532,7 +593,7 @@ namespace System
             }
 
             // we must have at least one slot left to fill in the last string.
-            Diagnostics.Debug.Assert(arrIndex < maxItems);
+            Debug.Assert(arrIndex < maxItems);
 
             //Handle the last string at the end of the array if there is one.
             if (currIndex < s.Length)

@@ -2,6 +2,7 @@
 
 namespace Internal
 {
+#pragma warning disable 0649
     /// <summary>
     /// This structure contains information about the current computer system. This includes the processor type, page size, memory addresses, and OEM identifier.
     /// </summary>
@@ -51,4 +52,5 @@ namespace Internal
         /// </summary>
         public short ProcessorRevision;
     }
+#pragma warning restore 0649
 }

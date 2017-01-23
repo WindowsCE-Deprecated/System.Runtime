@@ -3,7 +3,13 @@
 using System.Globalization;
 using System.Runtime.Serialization;
 
+using System;
+
+#if NET35_CF
 namespace System
+#else
+namespace Mock.System
+#endif
 {
     [Serializable]
     public struct DateTimeOffset

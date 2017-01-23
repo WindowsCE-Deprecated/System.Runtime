@@ -1,7 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 
+#if NET35_CF
 namespace System.Threading
+#else
+namespace Mock.System.Threading
+#endif
 {
     public static class Monitor2
     {

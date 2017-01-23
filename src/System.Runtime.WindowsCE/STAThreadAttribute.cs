@@ -1,4 +1,10 @@
-﻿namespace System
+﻿using System;
+
+#if NET35_CF
+namespace System
+#else
+namespace Mock.System
+#endif
 {
     [Obsolete(Consts.PlatformNotSupportedDescription)]
     [AttributeUsage(AttributeTargets.Method)]

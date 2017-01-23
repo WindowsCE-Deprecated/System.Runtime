@@ -9,7 +9,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 // using System.Diagnostics.Contracts;
 
+#if !NET35_CF
+using Mock.System.Collections;
+#endif
+
+#if NET35_CF
 namespace System
+#else
+namespace Mock.System
+#endif
 {
     /// <summary>
     /// Helper so we can call some tuple methods recursively without knowing the underlying types.

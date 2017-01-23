@@ -1,4 +1,10 @@
-﻿namespace System.Reflection
+﻿using System;
+
+#if NET35_CF
+namespace System.Reflection
+#else
+namespace Mock.System.Reflection
+#endif
 {
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false, Inherited = false)]
     public sealed class AssemblyFileVersionAttribute : Attribute

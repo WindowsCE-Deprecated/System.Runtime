@@ -13,7 +13,11 @@
 **
 ===========================================================*/
 
+#if NET35_CF
 namespace System
+#else
+namespace Mock.System
+#endif
 {
     /// <summary>Defines a provider for progress updates.</summary>
     /// <typeparam name="T">The type of progress update value.</typeparam>

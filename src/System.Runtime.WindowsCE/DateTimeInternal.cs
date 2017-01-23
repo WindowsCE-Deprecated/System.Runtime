@@ -1,4 +1,8 @@
-﻿namespace System
+﻿#if NET35_CF
+namespace System
+#else
+namespace Mock.System
+#endif
 {
     internal static class DateTimeInternal
     {

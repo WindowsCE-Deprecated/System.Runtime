@@ -27,8 +27,8 @@
 //
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Mock.System.Threading;
 using System;
-using System.Threading;
 
 namespace MonoTests.System.Threading
 {

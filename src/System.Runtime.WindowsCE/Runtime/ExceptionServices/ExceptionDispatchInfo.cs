@@ -1,6 +1,11 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
+#if NET35_CF
 namespace System.Runtime.ExceptionServices
+#else
+namespace Mock.System.Runtime.ExceptionServices
+#endif
 {
     /// <summary>
     /// The ExceptionDispatchInfo object stores the stack trace information and

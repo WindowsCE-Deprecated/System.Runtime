@@ -1,4 +1,10 @@
-﻿namespace System.Runtime.CompilerServices
+﻿using System;
+
+#if NET35_CF
+namespace System.Runtime.CompilerServices
+#else
+namespace Mock.System.Runtime.CompilerServices
+#endif
 {
     /// <summary>
     /// Specifies a <see cref="Type"/> that should be forwarded but its not available.

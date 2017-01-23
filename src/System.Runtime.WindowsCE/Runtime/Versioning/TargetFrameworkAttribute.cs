@@ -1,4 +1,10 @@
-﻿namespace System.Runtime.Versioning
+﻿using System;
+
+#if NET35_CF
+namespace System.Runtime.Versioning
+#else
+namespace Mock.System.Runtime.Versioning
+#endif
 {
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false, Inherited = false)]
     public sealed class TargetFrameworkAttribute : Attribute

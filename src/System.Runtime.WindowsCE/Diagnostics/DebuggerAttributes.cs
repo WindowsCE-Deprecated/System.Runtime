@@ -11,12 +11,15 @@
 **
 ===========================================================*/
 
+using System;
+using System.Runtime.InteropServices;
 
+#if NET35_CF
 namespace System.Diagnostics
+#else
+namespace Mock.System.Diagnostics
+#endif
 {
-    using System;
-    using Runtime.InteropServices;
-
     //  DebuggerBrowsableState states are defined as follows:
     //      Never       never show this element
     //      Expanded    expansion of the class is done, so that all visible internal members are shown
