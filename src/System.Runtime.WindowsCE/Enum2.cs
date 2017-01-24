@@ -37,18 +37,22 @@ namespace Mock.System
             if (format == null) throw new ArgumentNullException("format");
             if (!enumType.IsEnum) throw new ArgumentException("The argument enumType must be an System.Enum.");
 
-            if (string.Compare(format, "G", true, CultureInfo.InvariantCulture) == 0)
+            if (format.Length != 1)
+                throw new FormatException("Invalid format");
+
+            char formatCh = format[0];
+            if (formatCh == 'G' || formatCh == 'g')
                 return InternalFormat(enumType, value);
-            if (string.Compare(format, "F", true, CultureInfo.InvariantCulture) == 0)
+            if (formatCh == 'F' || formatCh == 'f')
                 return InternalValuesFormat(enumType, value, false);
-            if (string.Compare(format, "V", true, CultureInfo.InvariantCulture) == 0)
+            if (formatCh == 'V' || formatCh == 'v')
                 return InternalValuesFormat(enumType, value, true);
-            if (string.Compare(format, "X", true, CultureInfo.InvariantCulture) == 0)
+            if (formatCh == 'X' || formatCh == 'x')
                 return InternalFormattedHexString(value);
-            if (string.Compare(format, "D", true, CultureInfo.InvariantCulture) == 0)
+            if (formatCh == 'D' || formatCh == 'd')
                 return Convert.ToUInt64(value).ToString();
 
-            throw new FormatException("Invalid format.");
+            throw new FormatException("Invalid format");
         }
 
         /// <summary>
@@ -250,7 +254,10 @@ namespace Mock.System
         private static string InternalValuesFormat(Type enumType, object value, bool showValues)
         {
             string[] names = null;
-            if (!showValues) names = GetNames(enumType);
+
+            if (!showValues)
+                names = GetNames(enumType);
+
             ulong v = Convert.ToUInt64(value);
             Array e = GetValues(enumType);
             List<string> al = new List<string>();

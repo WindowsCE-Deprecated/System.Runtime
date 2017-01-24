@@ -37,9 +37,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Runtime.WindowsCE, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\src\System.Runtime.WindowsCE\bin\Debug\net35\System.Runtime.WindowsCE.dll</HintPath>
+    <Reference Include="System.Runtime">
+      <HintPath>..\..\src\System.Runtime.WindowsCE\bin\Debug\net35\System.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>
@@ -55,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="EnumTests.cs" />
     <Compile Include="LazyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringTests.cs" />
