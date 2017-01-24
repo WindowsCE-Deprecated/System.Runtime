@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 
 #if NET35_CF
 namespace System
@@ -34,6 +35,9 @@ namespace Mock.System
         public ArgumentNullException2(string paramName, string message)
             : base(message, paramName)
         { }
+
+        protected ArgumentNullException2(SerializationInfo info, StreamingContext context)
+            : base(info, context) { }
 
         private static string ExtractMessage()
             => new ArgumentNullException().Message;

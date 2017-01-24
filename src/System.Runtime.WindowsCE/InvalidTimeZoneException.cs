@@ -3,7 +3,13 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-//using System.Runtime.Serialization;
+using System.Runtime.Serialization;
+
+#if NET35_CF
+using System.Runtime.ExceptionServices;
+#else
+using Mock.System.Runtime.ExceptionServices;
+#endif
 
 #if NET35_CF
 namespace System
@@ -12,7 +18,7 @@ namespace Mock.System
 #endif
 {
     [Serializable]
-    public class InvalidTimeZoneException : Exception
+    public class InvalidTimeZoneException : Exception, ISerializable
     {
         public InvalidTimeZoneException(string message)
             : base(message) { }
@@ -20,11 +26,17 @@ namespace Mock.System
         public InvalidTimeZoneException(string message, Exception innerException)
             : base(message, innerException) { }
 
-        // TODO: Implement serialization for Exception
-        //protected InvalidTimeZoneException(SerializationInfo info, StreamingContext context)
-        //    : base(info, context) { }
+        protected InvalidTimeZoneException(SerializationInfo info, StreamingContext context)
+        {
+            ExceptionSerializer.SetObjectData(this, info, context);
+        }
 
         public InvalidTimeZoneException()
             : base() { }
+
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            ExceptionSerializer.GetObjectData(this, info, context);
+        }
     }
 }

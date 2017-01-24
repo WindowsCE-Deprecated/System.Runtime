@@ -1,5 +1,12 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
+
+#if NET35_CF
+using System.Runtime.ExceptionServices;
+#else
+using Mock.System.Runtime.ExceptionServices;
+#endif
 
 #if NET35_CF
 namespace System
@@ -14,21 +21,9 @@ namespace Mock.System
     /// </summary>
     [ComVisible(true)]
     [Serializable]
-    public class ArgumentException2 : ArgumentException
+    public class ArgumentException2 : ArgumentException, ISerializable
     {
-        private readonly string _message;
         private readonly string _paramName;
-
-        public override string Message
-        {
-            get
-            {
-                if (_message != null)
-                    return _message;
-
-                return base.Message;
-            }
-        }
 
         public virtual string ParamName
         {
@@ -62,10 +57,25 @@ namespace Mock.System
         }
 
         public ArgumentException2(string message, string paramName, Exception innerException)
-            : base(message, innerException)
+            : base(message, paramName)
         {
-            _message = new ArgumentException(message, paramName).Message;
             _paramName = paramName;
+            this.SetInnerException(innerException);
+        }
+
+        protected ArgumentException2(SerializationInfo info, StreamingContext context)
+        {
+            ExceptionSerializer.SetObjectData(this, info, context);
+            _paramName = info.GetString("ParamName");
+        }
+
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            if (info == null)
+                throw new ArgumentNullException(nameof(info));
+
+            ExceptionSerializer.GetObjectData(this, info, context);
+            info.AddValue("ParamName", _paramName, typeof(string));
         }
     }
 }
