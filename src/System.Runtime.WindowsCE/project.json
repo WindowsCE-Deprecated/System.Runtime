@@ -1,5 +1,28 @@
 ﻿{
+  "title": "System.Runtime.WindowsCE",
   "version": "1.0.0-*",
+  "language": "en-US",
+  "authors": [ "Fabricio Godoy" ],
+  "packOptions": {
+    "summary": "Provides the fundamental primitives, classes and base classes",
+    "owners": [ "skarllot", "fgodoy-verion" ],
+    "tags": [ "net35-cf", "windowsce", "wince", "netstandard", "netstandard1.0" ],
+    "projectUrl": "https://github.com/WindowsCE/System.Runtime",
+    "licenseUrl": "https://www.microsoft.com/net/dotnet_library_license.htm",
+    "requireLicenseAcceptance": true,
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/WindowsCE/System.Runtime.git"
+    }
+  },
+
+  "buildOptions": {
+    "keyFile": "../tools/keypair.snk",
+    "nowarn": [ "CS1591" ],
+    "outputName": "System.Runtime",
+    "xmlDoc": true,
+    "warningsAsErrors": true
+  },
 
   "frameworks": {
     "net35-cf": {
@@ -14,7 +37,9 @@
     },
     "net35": {
       "buildOptions": {
-        "nowarn": [ "CS0436", "CS0114" ]
+        "nowarn": [ "CS0436", "CS0114" ],
+        "xmlDoc": false,
+        "warningsAsErrors": false
       }
     }
   }

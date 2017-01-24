@@ -62,7 +62,7 @@ namespace Mock.System
     public class Lazy<T>
     {
 
-#region Inner classes
+        #region Inner classes
         /// <summary>
         /// wrapper class to box the initialized value, this is mainly created to avoid boxing/unboxing the value each time the value is called in case T is 
         /// a value type
@@ -89,7 +89,7 @@ namespace Mock.System
                 m_edi = ExceptionDispatchInfo.Capture(ex);
             }
         }
-#endregion
+        #endregion
 
         // A dummy delegate used as a  :
         // 1- Flag to avoid recursive call to Value in None and ExecutionAndPublication modes in m_valueFactory
@@ -129,7 +129,7 @@ namespace Mock.System
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:System.Threading.Lazy{T}"/> class that
+        /// Initializes a new instance of the <see cref="Lazy{T}"/> class that
         /// uses a pre-initialized specified value.
         /// </summary>
         /// <remarks>
@@ -178,7 +178,7 @@ namespace Mock.System
         {
             m_threadSafeObj = GetObjectFromMode(mode);
         }
-        
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Threading.Lazy{T}"/> class
