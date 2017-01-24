@@ -9,6 +9,8 @@ namespace Mock.System
 {
     public static class Activator2
     {
+        private const string ParameterElementNull = "None of {0} elements should be null.";
+
         public static object CreateInstance(Type type)
             => Activator.CreateInstance(type);
 
@@ -26,7 +28,7 @@ namespace Mock.System
             {
                 if (args[i] == null)
                     throw new ArgumentException(
-                        string.Format(Strings.ParameterElementNull, nameof(args)),
+                        string.Format(ParameterElementNull, nameof(args)),
                         nameof(args));
 
                 argsType[i] = args[i].GetType();

@@ -8,7 +8,7 @@
     "owners": [ "skarllot", "fgodoy-verion" ],
     "tags": [ "net35-cf", "windowsce", "wince", "netstandard", "netstandard1.0" ],
     "projectUrl": "https://github.com/WindowsCE/System.Runtime",
-    "licenseUrl": "https://www.microsoft.com/net/dotnet_library_license.htm",
+    "licenseUrl": "https://github.com/WindowsCE/System.Runtime/blob/master/LICENSE.txt",
     "requireLicenseAcceptance": true,
     "repository": {
       "type": "git",
@@ -17,7 +17,7 @@
   },
 
   "buildOptions": {
-    "keyFile": "../tools/keypair.snk",
+    "keyFile": "../../tools/keypair.snk",
     "nowarn": [ "CS1591" ],
     "outputName": "System.Runtime",
     "xmlDoc": true,
@@ -32,7 +32,7 @@
         "System.Core": ""
       },
       "dependencies": {
-        "System.Runtime.Serialization.Formatters.WindowsCE": "1.0.1"
+        "System.Runtime.Serialization.Formatters.WindowsCE": "1.0.2"
       }
     },
     "net35": {

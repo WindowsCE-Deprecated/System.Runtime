@@ -40,7 +40,6 @@ namespace Mock.System
         }
 
         //[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
-        [CLSCompliant(false)]
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             if (info == null)

@@ -13,7 +13,6 @@ namespace Mock.System.Runtime.ExceptionServices
     /// <summary>
     /// Provides methods to help serialization of <see cref="Exception"/> instance.
     /// </summary>
-    [CLSCompliant(false)]
     public static class ExceptionSerializer
     {
         private static readonly FieldInfo HResultFieldInfo;

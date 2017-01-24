@@ -460,11 +460,11 @@ namespace Internal
         /// </summary>
         Unknown = 0,
         /// <summary>
-        /// The system is operating in the range covered by the StandardDate member of the <see cref="OpenNETCF.WindowsCE.TimeZoneInformation"/> structure.
+        /// The system is operating in the range covered by the StandardDate member of the <see cref="T:OpenNETCF.WindowsCE.TimeZoneInformation"/> structure.
         /// </summary>
         Standard = 1,
         /// <summary>
-        /// The system is operating in the range covered by the DaylightDate member of the <see cref="OpenNETCF.WindowsCE.TimeZoneInformation"/> structure.
+        /// The system is operating in the range covered by the DaylightDate member of the <see cref="T:OpenNETCF.WindowsCE.TimeZoneInformation"/> structure.
         /// </summary>
         Daylight = 2
     }

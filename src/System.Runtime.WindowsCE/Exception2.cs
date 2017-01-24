@@ -27,7 +27,6 @@ namespace Mock.System
         public Exception2(string message, Exception innerException)
             : base(message, innerException) { }
 
-        [CLSCompliant(false)]
         protected Exception2(SerializationInfo info, StreamingContext context)
         {
             ExceptionSerializer.SetObjectData(this, info, context);
@@ -46,7 +45,6 @@ namespace Mock.System
             }
         }
 
-        [CLSCompliant(false)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             ExceptionSerializer.GetObjectData(this, info, context);

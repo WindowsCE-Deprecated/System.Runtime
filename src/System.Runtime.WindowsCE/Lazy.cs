@@ -134,7 +134,7 @@ namespace Mock.System
         /// </summary>
         /// <remarks>
         /// An instance created with this constructor should be usable by multiple threads
-        //  concurrently.
+        /// concurrently.
         /// </remarks>
         public Lazy(T value)
         {
@@ -304,10 +304,8 @@ namespace Mock.System
             }
         }
 
-        /// <summary>Gets the lazily initialized value of the current <see
-        /// cref="T:System.Threading.Lazy{T}"/>.</summary>
-        /// <value>The lazily initialized value of the current <see
-        /// cref="T:System.Threading.Lazy{T}"/>.</value>
+        /// <summary>Gets the lazily initialized value of the current <see cref="Lazy{T}"/>.</summary>
+        /// <value>The lazily initialized value of the current <see cref="Lazy{T}"/>.</value>
         /// <exception cref="T:System.MissingMemberException">
         /// The <see cref="T:System.Threading.Lazy{T}"/> was initialized to use the default constructor 
         /// of the type being lazily initialized, and that type does not have a public, parameterless constructor.
@@ -322,8 +320,8 @@ namespace Mock.System
         /// </exception>
         /// <remarks>
         /// If <see cref="IsValueCreated"/> is false, accessing <see cref="Value"/> will force initialization.
-        /// Please <see cref="System.Threading.LazyThreadSafetyMode"> for more information on how <see cref="T:System.Threading.Lazy{T}"/> will behave if an exception is thrown
-        /// from initialization delegate.
+        /// Please <see cref="LazyThreadSafetyMode"/> for more information on how <see cref="Lazy{T}"/> will
+        /// behave if an exception is thrown from initialization delegate.
         /// </remarks>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public T Value

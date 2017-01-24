@@ -66,7 +66,9 @@ namespace Mock.System.Threading
 
                 var queue = _waiters[obj];
                 counter = queue.Count;
-                queue.ForEach(a => a.Set());
+
+                for (int i = 0; i < counter; i++)
+                    queue[i].Set();
             }
 
             for (int i = 0; i < counter; i++)
