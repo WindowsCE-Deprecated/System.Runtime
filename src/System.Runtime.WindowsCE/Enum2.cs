@@ -1,8 +1,12 @@
 ﻿// Ref: https://opennetcf.codeplex.com/
+// Ref: https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Enum.cs
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 
 #if NET35_CF
 namespace System
@@ -24,7 +28,6 @@ namespace Mock.System
         /// "X" or "x" - Represents value in hexadecimal without a leading "0x". 
         /// "D" or "d" - Represents value in decimal form.
         /// "F" or "f" - Behaves identically to "G" or "g", except the FlagsAttribute is not required to be present on the Enum declaration. 
-        /// "V" or "v" - If value is equal to a named enumerated constant, the value of that constant is returned; otherwise, the decimal equivalent of value is returned.
         /// </remarks>
         /// <param name="enumType">The enumeration type of the value to convert.</param>
         /// <param name="value">The value to convert.</param>
@@ -44,9 +47,7 @@ namespace Mock.System
             if (formatCh == 'G' || formatCh == 'g')
                 return InternalFormat(enumType, value);
             if (formatCh == 'F' || formatCh == 'f')
-                return InternalValuesFormat(enumType, value, false);
-            if (formatCh == 'V' || formatCh == 'v')
-                return InternalValuesFormat(enumType, value, true);
+                return InternalValuesFormat(enumType, value);
             if (formatCh == 'X' || formatCh == 'x')
                 return InternalFormattedHexString(value);
             if (formatCh == 'D' || formatCh == 'd')
@@ -64,39 +65,20 @@ namespace Mock.System
         /// <exception cref="ArgumentException"> enumType is not an System.Enum.  -or-  value is neither of type enumType nor does it have the same underlying type as enumType.</exception>
         public static string GetName(Type enumType, object value)
         {
-            //check that the type supplied inherits from System.Enum
-            if (enumType.BaseType != SystemEnumType)
-            {
-                //the type supplied does not derive from enum
-                throw new ArgumentException(
-                    "Cannot get name from type not derived from System.Enum",
-                    nameof(enumType));
-            }
+            ulong numValue = Convert.ToUInt64(value);
 
-            //get details of all the public static fields (enum items)
-            FieldInfo[] fi = enumType.GetFields(BindingFlags.Static | BindingFlags.Public);
+            int length;
+            bool isFlags;
+            var valuesAndNames = GetValuesAndNames(enumType, out length, out isFlags);
 
             //cycle through the enum values
-            foreach (FieldInfo thisField in fi)
+            foreach (var item in valuesAndNames)
             {
-                object numericValue = 0;
-
-                try
-                {
-                    //convert the enum value to the numeric type supplied
-                    numericValue = Convert.ChangeType(thisField.GetValue(null), value.GetType(), null);
-                }
-                catch
-                {
-                    throw new ArgumentException();
-                }
-
                 //if value matches return the name
-                if (numericValue.Equals(value))
-                {
-                    return thisField.Name;
-                }
+                if (item.ValueNumber == numValue)
+                    return item.Name;
             }
+
             //if there is no match return null
             return null;
         }
@@ -109,25 +91,19 @@ namespace Mock.System
         /// <exception cref="System.ArgumentException">enumType parameter is not an System.Enum</exception>
         public static string[] GetNames(Type enumType)
         {
-            //check that the type supplied inherits from System.Enum
-            if (enumType.BaseType != SystemEnumType)
-            {
-                //the type supplied does not derive from enum
-                throw new ArgumentException(
-                    "Cannot get names from type not derived from System.Enum",
-                    nameof(enumType));
-            }
-
-            //get the public static fields (members of the enum)
-            FieldInfo[] fi = enumType.GetFields(BindingFlags.Static | BindingFlags.Public);
+            int length;
+            bool isFlags;
+            var valuesAndNames = GetValuesAndNames(enumType, out length, out isFlags);
 
             //create a new enum array
-            string[] names = new string[fi.Length];
+            string[] names = new string[length];
 
             //populate with the values
-            for (int iEnum = 0; iEnum < fi.Length; iEnum++)
+            int index = 0;
+            foreach (var item in valuesAndNames)
             {
-                names[iEnum] = fi[iEnum].Name;
+                names[index] = item.Name;
+                index++;
             }
 
             //return the array
@@ -145,25 +121,19 @@ namespace Mock.System
         /// <exception cref="System.ArgumentException">enumType parameter is not an System.Enum</exception>
         public static Array GetValues(Type enumType)
         {
-            //check that the type supplied inherits from System.Enum
-            if (enumType.BaseType != SystemEnumType)
-            {
-                //the type supplied does not derive from enum
-                throw new ArgumentException(
-                    "Cannot get names from type not derived from System.Enum",
-                    nameof(enumType));
-            }
-
-            //get the public static fields (members of the enum)
-            FieldInfo[] fi = enumType.GetFields(BindingFlags.Static | BindingFlags.Public);
+            int length;
+            bool isFlags;
+            var valuesAndNames = GetValuesAndNames(enumType, out length, out isFlags);
 
             //create a new enum array
-            Array values = Array.CreateInstance(enumType, fi.Length);
+            Array values = Array.CreateInstance(enumType, length);
 
             //populate with the values
-            for (int iEnum = 0; iEnum < fi.Length; iEnum++)
+            int index = 0;
+            foreach (var item in valuesAndNames)
             {
-                values.SetValue(fi[iEnum].GetValue(null), iEnum);
+                values.SetValue(item.Value, index);
+                index++;
             }
 
             //return the array
@@ -230,6 +200,39 @@ namespace Mock.System
             return retVal;
         }
 
+        private static IEnumerable<TypeValueAndName> GetValuesAndNames(Type enumType, out int length, out bool isFlags)
+        {
+            //check that the type supplied inherits from System.Enum
+            if (enumType.BaseType != SystemEnumType)
+            {
+                //the type supplied does not derive from enum
+                throw new ArgumentException(
+                    "Cannot get names from type not derived from System.Enum",
+                    nameof(enumType));
+            }
+
+            //get the public static fields (members of the enum)
+            FieldInfo[] fi = enumType.GetFields(BindingFlags.Static | BindingFlags.Public);
+
+            isFlags = enumType.IsDefined(typeof(FlagsAttribute), false);
+            length = fi.Length;
+
+            return GetValuesAndNamesIterator(fi);
+        }
+
+        private static IEnumerable<TypeValueAndName> GetValuesAndNamesIterator(FieldInfo[] fi)
+        {
+            //populate with the values
+            FieldInfo currField = null;
+            for (int iEnum = 0; iEnum < fi.Length; iEnum++)
+            {
+                currField = fi[iEnum];
+                yield return new TypeValueAndName(
+                    currField.GetValue(null),
+                    currField.Name);
+            }
+        }
+
         private static string InternalFormat(Type enumType, object value)
         {
             if (enumType.IsDefined(typeof(FlagsAttribute), false))
@@ -238,7 +241,7 @@ namespace Mock.System
             string t = GetName(enumType, value);
             if (t == null)
                 return value.ToString();
-            
+
             return t;
         }
 
@@ -251,36 +254,55 @@ namespace Mock.System
             return t;
         }
 
-        private static string InternalValuesFormat(Type enumType, object value, bool showValues)
+        private static string InternalValuesFormat(Type enumType, object value)
         {
-            string[] names = null;
+            const string separator = ", ";
+            ulong result = Convert.ToUInt64(value);
 
-            if (!showValues)
-                names = GetNames(enumType);
+            int length;
+            bool isFlags;
+            var valuesAndNames = GetValuesAndNames(enumType, out length, out isFlags)
+                .OrderBy(a => a.ValueNumber)
+                .ToArray();
 
-            ulong v = Convert.ToUInt64(value);
-            Array e = GetValues(enumType);
-            List<string> al = new List<string>();
-            for (int i = 0; i < e.Length; i++)
+            // For the case when we have zero
+            if (result == 0)
             {
-                ulong ev = (ulong)Convert.ChangeType(e.GetValue(i), typeof(ulong), null);
-                if (i == 0 && ev == 0) continue;
-                if ((v & ev) == ev)
-                {
-                    v -= ev;
-                    if (showValues)
-                        al.Add(ev.ToString());
-                    else
-                        al.Add(names[i]);
-                }
+                if (valuesAndNames.Length > 0 && valuesAndNames[0].ValueNumber == 0)
+                    return valuesAndNames[0].Name;
+                else
+                    return "0";
             }
 
-            if (v != 0)
+            int index = valuesAndNames.Length - 1;
+            StringBuilder retVal = new StringBuilder();
+            bool firstTime = true;
+
+            while (index >= 0)
+            {
+                ulong currVal = valuesAndNames[index].ValueNumber;
+
+                if ((index == 0) && (currVal == 0))
+                    break;
+
+                if ((result & currVal) == currVal)
+                {
+                    result -= currVal;
+
+                    if (!firstTime)
+                        retVal.Insert(0, separator);
+
+                    retVal.Insert(0, valuesAndNames[index].Name);
+                    firstTime = false;
+                }
+
+                index--;
+            }
+
+            if (result != 0)
                 return value.ToString();
 
-
-            string[] t = al.ToArray();
-            return string.Join(", ", t);
+            return retVal.ToString();
         }
 
         private static string InternalFormattedHexString(object value)
@@ -322,5 +344,62 @@ namespace Mock.System
 
             throw new InvalidOperationException("Unknown enum type.");
         }
+
+        #region Definitions
+        private class TypeValueAndName : IComparable<TypeValueAndName>
+        {
+            private ulong? _value;
+
+            public object Value { get; set; }
+            public string Name { get; set; }
+
+            public ulong ValueNumber
+            {
+                get
+                {
+                    if (_value == null)
+                        _value = Convert.ToUInt64(Value);
+
+                    return _value.Value;
+                }
+            }
+
+            // Each entry contains a list of sorted pair of enum field names and values, sorted by values
+            public TypeValueAndName(object value, string name)
+            {
+                Value = value;
+                Name = name;
+            }
+
+            public override bool Equals(object obj)
+            {
+                TypeValueAndName other = obj as TypeValueAndName;
+                if (obj == null)
+                    return false;
+
+                return Value == other.Value &&
+                    Name == other.Name;
+            }
+
+            public override int GetHashCode()
+            {
+                return Value.GetHashCode();
+            }
+
+            public int CompareTo(object obj)
+            {
+                TypeValueAndName other = obj as TypeValueAndName;
+                if (other == null)
+                    throw new ArgumentException("Null or invalid parameter", nameof(obj));
+
+                return CompareTo(other);
+            }
+
+            public int CompareTo(TypeValueAndName other)
+            {
+                return ValueNumber.CompareTo(other.ValueNumber);
+            }
+        }
+        #endregion
     }
 }

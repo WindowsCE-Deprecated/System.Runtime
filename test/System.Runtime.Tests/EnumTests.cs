@@ -73,8 +73,6 @@ namespace System.Runtime.Tests
                 string fmtD2 = Mock.System.Enum2.Format(TypeTestEnum, values[i], "D");
                 string fmtF = Mock.System.Enum2.Format(TypeTestEnum, values[i], "f");
                 string fmtF2 = Mock.System.Enum2.Format(TypeTestEnum, values[i], "F");
-                string fmtV = Mock.System.Enum2.Format(TypeTestEnum, values[i], "v");
-                string fmtV2 = Mock.System.Enum2.Format(TypeTestEnum, values[i], "V");
 
                 Assert.IsNotNull(fmtG);
                 Assert.IsNotNull(fmtG2);
@@ -84,20 +82,16 @@ namespace System.Runtime.Tests
                 Assert.IsNotNull(fmtD2);
                 Assert.IsNotNull(fmtF);
                 Assert.IsNotNull(fmtF2);
-                Assert.IsNotNull(fmtV);
-                Assert.IsNotNull(fmtV2);
 
                 Assert.AreEqual(fmtG, fmtG2);
                 Assert.AreEqual(fmtX, fmtX2);
                 Assert.AreEqual(fmtD, fmtD2);
                 Assert.AreEqual(fmtF, fmtF2);
-                Assert.AreEqual(fmtV, fmtV2);
 
                 Assert.AreEqual(names[i], fmtG);
                 Assert.AreEqual(values[i].ToString("X8"), fmtX);
                 Assert.AreEqual(values[i].ToString(), fmtD);
                 Assert.AreEqual(names[i], fmtF);
-                //Assert.AreEqual(names[i], fmtV);
             }
         }
 
@@ -114,6 +108,22 @@ namespace System.Runtime.Tests
             for (int i = 0; i < result.Length; i++)
             {
                 Assert.AreEqual(expected[i], result[i]);
+            }
+        }
+
+        [TestMethod]
+        public void EnumGetValues()
+        {
+            Array result = Mock.System.Enum2.GetValues(TypeTestEnum);
+            int[] expected = GetValues().ToArray();
+            expected = expected.Take(expected.Length - 1).ToArray();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected.Length, result.Length);
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                Assert.AreEqual(expected[i], Convert.ToInt64(result.GetValue(i)));
             }
         }
     }
