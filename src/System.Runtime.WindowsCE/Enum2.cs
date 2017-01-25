@@ -2,8 +2,6 @@
 // Ref: https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Enum.cs
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -236,7 +234,7 @@ namespace Mock.System
         private static string InternalFormat(Type enumType, object value)
         {
             if (enumType.IsDefined(typeof(FlagsAttribute), false))
-                return InternalFlagsFormat(enumType, value);
+                return InternalValuesFormat(enumType, value);
 
             string t = GetName(enumType, value);
             if (t == null)
@@ -312,37 +310,57 @@ namespace Mock.System
                 case TypeCode.SByte:
                     {
                         sbyte n = (sbyte)value;
-                        return n.ToString("X2", null);
+                        return ((byte)n).ToString("X2", null);
                     }
                 case TypeCode.Byte:
                     {
                         byte n = (byte)value;
                         return n.ToString("X2", null);
                     }
+                case TypeCode.Boolean:
+                    {
+                        bool n = (bool)value;
+                        return Convert.ToByte(n).ToString("X2", null);
+                    }
                 case TypeCode.Int16:
                     {
                         short n = (short)value;
-                        return n.ToString("X4", null);
+                        return ((ushort)n).ToString("X4", null);
                     }
                 case TypeCode.UInt16:
                     {
                         ushort n = (ushort)value;
                         return n.ToString("X4", null);
                     }
+                case TypeCode.Char:
+                    {
+                        char n = (char)value;
+                        return ((ushort)n).ToString("X4", null);
+                    }
                 case TypeCode.Int32:
                     {
                         int n = (int)value;
-                        return n.ToString("X8", null);
+                        return ((uint)n).ToString("X8", null);
                     }
                 case TypeCode.UInt32:
                     {
                         uint n = (uint)value;
                         return n.ToString("X8", null);
                     }
+                case TypeCode.Int64:
+                    {
+                        int n = (int)value;
+                        return ((ulong)n).ToString("X16", null);
+                    }
+                case TypeCode.UInt64:
+                    {
+                        uint n = (uint)value;
+                        return n.ToString("X16", null);
+                    }
 
             }
 
-            throw new InvalidOperationException("Unknown enum type.");
+            throw new InvalidOperationException("Unknown enum type");
         }
 
         #region Definitions
