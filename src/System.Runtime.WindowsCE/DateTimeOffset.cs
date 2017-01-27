@@ -364,21 +364,48 @@ namespace Mock.System
 
         private static DateTimeStyles ValidateStyles(DateTimeStyles style, string parameterName)
         {
+            DateTimeStyles result;
+            int error;
+            if (InternalTryValidateStyles(style, out result, out error))
+                return result;
+
+            switch (error)
+            {
+                case 1:
+                    throw new ArgumentException("An undefined DateTimeStyles value is being used.", parameterName);
+                case 2:
+                    throw new ArgumentException("The DateTimeStyles values AssumeLocal and AssumeUniversal cannot be used together.", parameterName);
+                case 3:
+                    throw new ArgumentException("The DateTimeStyles value 'NoCurrentDateDefault' is not allowed when parsing DateTimeOffset.", parameterName);
+                default:
+                    throw new ArgumentException("Unexpected error validating DateTimeStyles value");
+            }
+        }
+
+        private static bool InternalTryValidateStyles(DateTimeStyles style, out DateTimeStyles result, out int error)
+        {
+            result = 0;
             if ((style & ~(DateTimeStyles.RoundtripKind | DateTimeStyles.AssumeUniversal | DateTimeStyles.AssumeLocal | DateTimeStyles.AdjustToUniversal | DateTimeStyles.NoCurrentDateDefault | DateTimeStyles.AllowWhiteSpaces)) != DateTimeStyles.None)
             {
-                throw new ArgumentException("An undefined DateTimeStyles value is being used.", parameterName);
+                error = 1;
+                return false;
             }
             if (((style & DateTimeStyles.AssumeLocal) != DateTimeStyles.None) && ((style & DateTimeStyles.AssumeUniversal) != DateTimeStyles.None))
             {
-                throw new ArgumentException("The DateTimeStyles values AssumeLocal and AssumeUniversal cannot be used together.", parameterName);
+                error = 2;
+                return false;
             }
             if ((style & DateTimeStyles.NoCurrentDateDefault) != DateTimeStyles.None)
             {
-                throw new ArgumentException("The DateTimeStyles value 'NoCurrentDateDefault' is not allowed when parsing DateTimeOffset.", parameterName);
+                error = 3;
+                return false;
             }
+
             style &= ~DateTimeStyles.RoundtripKind;
             style &= ~DateTimeStyles.AssumeLocal;
-            return style;
+            result = style;
+            error = 0;
+            return true;
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
@@ -571,6 +598,68 @@ namespace Mock.System
             {
                 return ClockDateTime.Year;
             }
+        }
+
+        public static bool TryParse(string input, out DateTimeOffset result)
+        {
+            result = MinValue;
+            DateTime dtParsed;
+            if (!DateTime2.TryParse(input, DateTimeFormatInfo.CurrentInfo, DateTimeStyles.None, out dtParsed))
+                return false;
+
+            result = new DateTimeOffset(dtParsed);
+            return true;
+        }
+
+        public static bool TryParse(string input, IFormatProvider formatProvider, DateTimeStyles styles, out DateTimeOffset result)
+        {
+            result = MinValue;
+            DateTimeStyles valStyle;
+            int error;
+            if (!InternalTryValidateStyles(styles, out valStyle, out error))
+                return false;
+
+            styles = valStyle;
+            DateTime dtParsed;
+            if (!DateTime2.TryParse(input, DateTimeFormatInfo.GetInstance(formatProvider), styles, out dtParsed))
+                return false;
+
+            result = new DateTimeOffset(dtParsed);
+            return true;
+        }
+
+        public static bool TryParseExact(string input, string format, IFormatProvider formatProvider, DateTimeStyles styles, out DateTimeOffset result)
+        {
+            result = MinValue;
+            DateTimeStyles valStyle;
+            int error;
+            if (!InternalTryValidateStyles(styles, out valStyle, out error))
+                return false;
+
+            styles = valStyle;
+            DateTime dtParsed;
+            if (!DateTime2.TryParseExact(input, format, DateTimeFormatInfo.GetInstance(formatProvider), styles, out dtParsed))
+                return false;
+
+            result = new DateTimeOffset(dtParsed);
+            return true;
+        }
+
+        public static bool TryParseExact(string input, string[] formats, IFormatProvider formatProvider, DateTimeStyles styles, out DateTimeOffset result)
+        {
+            result = MinValue;
+            DateTimeStyles valStyle;
+            int error;
+            if (!InternalTryValidateStyles(styles, out valStyle, out error))
+                return false;
+
+            styles = valStyle;
+            DateTime dtParsed;
+            if (!DateTime2.TryParseExact(input, formats, DateTimeFormatInfo.GetInstance(formatProvider), styles, out dtParsed))
+                return false;
+
+            result = new DateTimeOffset(dtParsed);
+            return true;
         }
     }
 }
