@@ -338,6 +338,13 @@ namespace System.Runtime.Tests
             Assert.IsFalse(Mock.System.Enum2.HasFlag(
                 AttributeTargets.Assembly | AttributeTargets.Module,
                 AttributeTargets.Class));
+
+            Assert.IsFalse(Mock.System.Enum2.HasFlag(
+                Reflection.MemberTypes.Method,
+                Reflection.MemberTypes.All));
+            Assert.IsTrue(Mock.System.Enum2.HasFlag(
+                Reflection.MemberTypes.All,
+                Reflection.MemberTypes.Method));
         }
 
         [TestMethod]
