@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -37,17 +38,51 @@ namespace Mock.System
             => Type.GetTypeCode(type);
 
         public static Type GetInterface(this Type t, string name)
+            => GetInterface(t, name, false);
+
+        public static Type GetInterface(this Type t, string name, bool ignoreCase)
         {
+            StringComparison cmp = ignoreCase ?
+                StringComparison.OrdinalIgnoreCase :
+                StringComparison.Ordinal;
+
             return t.GetInterfaces()
-                .Where(i => i.Name.Equals(name, StringComparison.Ordinal))
+                .Where(i => i.Name.Equals(name, cmp))
                 .FirstOrDefault();
         }
 
         public static MemberInfo[] GetMember(this Type t, string name, MemberTypes type, BindingFlags bindingAttr)
         {
-            return t.GetMember(name, bindingAttr)
-                .Where(m => (type & m.MemberType) == m.MemberType)
-                .ToArray();
+            MemberInfo[] mInfos = t.GetMember(name, bindingAttr);
+            if (mInfos.Length == 1)
+            {
+                var m0types = mInfos[0].MemberType;
+                if ((type & m0types) == m0types)
+                    return mInfos;
+                else
+                    return new MemberInfo[0];
+            }
+
+            List<MemberInfo> fMInfos = null;
+            for (int i = 0; i < mInfos.Length; i++)
+            {
+                var mTypes = mInfos[i].MemberType;
+                if ((type & mTypes) != mTypes)
+                {
+                    if (fMInfos == null)
+                    {
+                        fMInfos = new List<MemberInfo>(mInfos.Length);
+                        fMInfos.AddRange(mInfos.Take(i));
+                    }
+
+                    fMInfos.Add(mInfos[i]);
+                }
+            }
+
+            if (fMInfos == null)
+                return mInfos;
+            else
+                return fMInfos.ToArray();
         }
 
         public static bool IsSerializable(this Type t)
