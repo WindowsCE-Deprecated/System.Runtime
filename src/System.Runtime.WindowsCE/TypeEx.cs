@@ -46,22 +46,22 @@ namespace Mock.System
                 StringComparison.OrdinalIgnoreCase :
                 StringComparison.Ordinal;
 
-            return t.GetInterfaces()
-                .Where(i => i.Name.Equals(name, cmp))
-                .FirstOrDefault();
+
+            Type[] ifaces = t.GetInterfaces();
+            for (int i = 0; i < ifaces.Length; i++)
+            {
+                if (ifaces[i].Name.Equals(name, cmp))
+                    return ifaces[i];
+            }
+
+            return null;
         }
 
         public static MemberInfo[] GetMember(this Type t, string name, MemberTypes type, BindingFlags bindingAttr)
         {
             MemberInfo[] mInfos = t.GetMember(name, bindingAttr);
-            if (mInfos.Length == 1)
-            {
-                var m0types = mInfos[0].MemberType;
-                if ((type & m0types) == m0types)
-                    return mInfos;
-                else
-                    return new MemberInfo[0];
-            }
+            if (mInfos.Length == 0)
+                return mInfos;
 
             List<MemberInfo> fMInfos = null;
             for (int i = 0; i < mInfos.Length; i++)
@@ -74,7 +74,9 @@ namespace Mock.System
                         fMInfos = new List<MemberInfo>(mInfos.Length);
                         fMInfos.AddRange(mInfos.Take(i));
                     }
-
+                }
+                else if (fMInfos != null)
+                {
                     fMInfos.Add(mInfos[i]);
                 }
             }

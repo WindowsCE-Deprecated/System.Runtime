@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace System.Runtime.Tests
@@ -41,98 +42,139 @@ namespace System.Runtime.Tests
             Type typeBar = typeof(Bar);
             Type typeFoo = typeof(Foo);
 
-            // Get field    ===================================================
-            var members = Mock.System.TypeEx.GetMember(
-                typeBar, "_field1",
-                Reflection.MemberTypes.Field,
-                Reflection.BindingFlags.Instance | Reflection.BindingFlags.NonPublic);
+            var expectedFields = new[]
+            {
+                new {
+                    Name = "_field1", MemberType = MemberTypes.Field, Flags = BindingFlags.Instance | BindingFlags.NonPublic, Length = 1,
+                    Members = new[] { new { Type = typeof(FieldInfo), MemberType = MemberTypes.Field, Parameters = new Type[0] } }
+                },
+                new {
+                    Name = "_field2", MemberType = MemberTypes.Field, Flags = BindingFlags.Instance | BindingFlags.NonPublic, Length = 1,
+                    Members = new[] { new { Type = typeof(FieldInfo), MemberType = MemberTypes.Field, Parameters = new Type[0] } }
+                },
+                new {
+                    Name = "_field3", MemberType = MemberTypes.Field, Flags = BindingFlags.Instance | BindingFlags.NonPublic, Length = 0,
+                    Members = new [] { new { Type = (Type)null, MemberType = (MemberTypes)0, Parameters = new Type[0] } }
+                },
+                new {
+                    Name = "_field1", MemberType = MemberTypes.Property, Flags = BindingFlags.Instance | BindingFlags.NonPublic, Length = 0,
+                    Members = new [] { new { Type = (Type)null, MemberType = (MemberTypes)0, Parameters = new Type[0] } }
+                },
+                new {
+                    Name = "_field1", MemberType = MemberTypes.All, Flags = BindingFlags.Instance | BindingFlags.NonPublic, Length = 1,
+                    Members = new[] { new { Type = typeof(FieldInfo), MemberType = MemberTypes.Field, Parameters = new Type[0] } }
+                },
+                new {
+                    Name = "Field1", MemberType = MemberTypes.Property, Flags = BindingFlags.Instance | BindingFlags.Public, Length = 1,
+                    Members = new[] { new { Type = typeof(PropertyInfo), MemberType = MemberTypes.Property, Parameters = new Type[0] } }
+                },
+                new {
+                    Name = "Field2", MemberType = MemberTypes.Property, Flags = BindingFlags.Instance | BindingFlags.Public, Length = 1,
+                    Members = new[] { new { Type = typeof(PropertyInfo), MemberType = MemberTypes.Property, Parameters = new Type[0] } }
+                },
+                new {
+                    Name = "Field3", MemberType = MemberTypes.Property, Flags = BindingFlags.Instance | BindingFlags.Public, Length = 0,
+                    Members = new[] { new { Type = (Type)null, MemberType = (MemberTypes)0, Parameters = new Type[0] } }
+                },
+                new {
+                    Name = "Field1", MemberType = MemberTypes.Method, Flags = BindingFlags.Instance | BindingFlags.Public, Length = 0,
+                    Members = new[] { new { Type = (Type)null, MemberType = (MemberTypes)0, Parameters = new Type[0] } }
+                },
+                new {
+                    Name = "SetField1", MemberType = MemberTypes.Method, Flags = BindingFlags.Instance | BindingFlags.Public, Length = 2,
+                    Members = new[] {
+                        new { Type = typeof(MethodInfo), MemberType = MemberTypes.Method, Parameters = new Type[] { typeof(int) } },
+                        new { Type = typeof(MethodInfo), MemberType = MemberTypes.Method, Parameters = new Type[] { typeof(int), typeof(bool) } } }
+                },
+                new {
+                    Name = "SetField2", MemberType = MemberTypes.Method, Flags = BindingFlags.Instance | BindingFlags.Public, Length = 1,
+                    Members = new[] {
+                        new { Type = typeof(MethodInfo), MemberType = MemberTypes.Method, Parameters = new Type[] { typeof(string) } } }
+                },
+                new {
+                    Name = "SetField3", MemberType = MemberTypes.Method, Flags = BindingFlags.Instance | BindingFlags.Public, Length = 0,
+                    Members = new [] { new { Type = (Type)null, MemberType = (MemberTypes)0, Parameters = new Type[0] } }
+                },
+                new {
+                    Name = "DoNothing", MemberType = MemberTypes.Field | MemberTypes.Property | MemberTypes.Method, Flags = BindingFlags.Instance | BindingFlags.Public, Length = 1,
+                    Members = new[] {
+                        new { Type = typeof(MethodInfo), MemberType = MemberTypes.Method, Parameters = new Type[0] } }
+                },
+            };
 
-            Assert.IsNotNull(members);
-            Assert.AreEqual(1, members.Length);
-            Assert.AreEqual(Reflection.MemberTypes.Field, members[0].MemberType);
-            Assert.AreEqual("_field1", members[0].Name);
-            Assert.AreEqual(typeBar, members[0].DeclaringType);
+            foreach (var item in expectedFields)
+            {
+                var members = Mock.System.TypeEx.GetMember(
+                    typeBar, item.Name, item.MemberType, item.Flags);
 
-            members = Mock.System.TypeEx.GetMember(
-                typeBar, "_field2",
-                Reflection.MemberTypes.Field,
-                Reflection.BindingFlags.Instance | Reflection.BindingFlags.NonPublic);
+                Assert.IsNotNull(members);
+                Assert.AreEqual(item.Length, members.Length);
 
-            Assert.IsNotNull(members);
-            Assert.AreEqual(1, members.Length);
-            Assert.AreEqual(Reflection.MemberTypes.Field, members[0].MemberType);
-            Assert.AreEqual("_field2", members[0].Name);
-            Assert.AreEqual(typeBar, members[0].DeclaringType);
+                for (int i = 0; i < item.Length; i++)
+                {
+                    Assert.IsTrue(item.Members[i].Type.IsAssignableFrom(members[i].GetType()));
+                    Assert.AreEqual(item.Members[i].MemberType, members[i].MemberType);
+                    Assert.AreEqual(item.Name, members[i].Name);
+                    Assert.AreEqual(typeBar, members[i].DeclaringType);
 
-            members = Mock.System.TypeEx.GetMember(
-                typeBar, "_field3",
-                Reflection.MemberTypes.Field,
-                Reflection.BindingFlags.Instance | Reflection.BindingFlags.NonPublic);
+                    if (item.Members[i].Type != typeof(MethodInfo))
+                        continue;
 
-            Assert.IsNotNull(members);
-            Assert.AreEqual(0, members.Length);
+                    ParameterInfo[] parameters = ((MethodInfo)members[i]).GetParameters();
+                    Assert.IsNotNull(parameters);
+                    Assert.AreEqual(item.Members[i].Parameters.Length, parameters.Length);
 
-            // Get property     ===============================================
-            members = Mock.System.TypeEx.GetMember(
-                typeBar, "Field1",
-                Reflection.MemberTypes.Property,
-                Reflection.BindingFlags.Instance | Reflection.BindingFlags.Public);
+                    for (int j = 0; j < parameters.Length; j++)
+                    {
+                        Assert.AreEqual(item.Members[i].Parameters[j], parameters[j].ParameterType);
+                    }
+                }
+            }
+        }
 
-            Assert.IsNotNull(members);
-            Assert.AreEqual(1, members.Length);
-            Assert.AreEqual(Reflection.MemberTypes.Property, members[0].MemberType);
-            Assert.AreEqual("Field1", members[0].Name);
-            Assert.AreEqual(typeBar, members[0].DeclaringType);
+        [TestMethod]
+        public void TypeEx_IsSerializable()
+        {
+            Assert.IsTrue(Mock.System.TypeEx.IsSerializable(typeof(Bar)));
+            Assert.IsFalse(Mock.System.TypeEx.IsSerializable(typeof(NotSerializableClass)));
+            Assert.IsFalse(Mock.System.TypeEx.IsSerializable(typeof(Foo)));
+            Assert.IsFalse(Mock.System.TypeEx.IsSerializable(typeof(Qux)));
+        }
 
-            members = Mock.System.TypeEx.GetMember(
-                typeBar, "Field2",
-                Reflection.MemberTypes.Property,
-                Reflection.BindingFlags.Instance | Reflection.BindingFlags.Public);
+        [TestMethod]
+        public void TypeEx_MakeArrayType()
+        {
+            Assert.AreEqual(typeof(int[]), Mock.System.TypeEx.MakeArrayType(typeof(int)));
+            Assert.AreEqual(typeof(long[]), Mock.System.TypeEx.MakeArrayType(typeof(long)));
+            Assert.AreEqual(typeof(string[]), Mock.System.TypeEx.MakeArrayType(typeof(string)));
+            Assert.AreEqual(typeof(int[,]), Mock.System.TypeEx.MakeArrayType(typeof(int), 2));
+            Assert.AreEqual(typeof(int[,,]), Mock.System.TypeEx.MakeArrayType(typeof(int), 3));
+            Assert.AreEqual(typeof(int[,,,]), Mock.System.TypeEx.MakeArrayType(typeof(int), 4));
+            Assert.AreEqual(typeof(int[,,,,]), Mock.System.TypeEx.MakeArrayType(typeof(int), 5));
+            Assert.AreEqual(typeof(long[,]), Mock.System.TypeEx.MakeArrayType(typeof(long), 2));
+            Assert.AreEqual(typeof(long[,,]), Mock.System.TypeEx.MakeArrayType(typeof(long), 3));
+            Assert.AreEqual(typeof(long[,,,]), Mock.System.TypeEx.MakeArrayType(typeof(long), 4));
+            Assert.AreEqual(typeof(long[,,,,]), Mock.System.TypeEx.MakeArrayType(typeof(long), 5));
+            Assert.AreEqual(typeof(string[,]), Mock.System.TypeEx.MakeArrayType(typeof(string), 2));
+            Assert.AreEqual(typeof(string[,,]), Mock.System.TypeEx.MakeArrayType(typeof(string), 3));
+            Assert.AreEqual(typeof(string[,,,]), Mock.System.TypeEx.MakeArrayType(typeof(string), 4));
+            Assert.AreEqual(typeof(string[,,,,]), Mock.System.TypeEx.MakeArrayType(typeof(string), 5));
+        }
 
-            Assert.IsNotNull(members);
-            Assert.AreEqual(1, members.Length);
-            Assert.AreEqual(Reflection.MemberTypes.Property, members[0].MemberType);
-            Assert.AreEqual("Field2", members[0].Name);
-            Assert.AreEqual(typeBar, members[0].DeclaringType);
+        [TestMethod]
+        public void TypeEx_MakeByRefType()
+        {
+            Assert.AreEqual(Type.GetType("System.Int32&", true, false), Mock.System.TypeEx.MakeByRefType(typeof(int)));
+            Assert.AreEqual(Type.GetType("System.Int64&", true, false), Mock.System.TypeEx.MakeByRefType(typeof(long)));
+            Assert.AreEqual(Type.GetType("System.String&", true, false), Mock.System.TypeEx.MakeByRefType(typeof(string)));
+        }
 
-            members = Mock.System.TypeEx.GetMember(
-                typeBar, "Field3",
-                Reflection.MemberTypes.Property,
-                Reflection.BindingFlags.Instance | Reflection.BindingFlags.Public);
-
-            Assert.IsNotNull(members);
-            Assert.AreEqual(0, members.Length);
-
-            // Get method   ===================================================
-            members = Mock.System.TypeEx.GetMember(
-                typeBar, "SetField1",
-                Reflection.MemberTypes.Method,
-                Reflection.BindingFlags.Instance | Reflection.BindingFlags.Public);
-
-            Assert.IsNotNull(members);
-            Assert.AreEqual(1, members.Length);
-            Assert.AreEqual(Reflection.MemberTypes.Method, members[0].MemberType);
-            Assert.AreEqual("SetField1", members[0].Name);
-            Assert.AreEqual(typeBar, members[0].DeclaringType);
-
-            members = Mock.System.TypeEx.GetMember(
-                typeBar, "SetField2",
-                Reflection.MemberTypes.Method,
-                Reflection.BindingFlags.Instance | Reflection.BindingFlags.Public);
-
-            Assert.IsNotNull(members);
-            Assert.AreEqual(1, members.Length);
-            Assert.AreEqual(Reflection.MemberTypes.Method, members[0].MemberType);
-            Assert.AreEqual("SetField2", members[0].Name);
-            Assert.AreEqual(typeBar, members[0].DeclaringType);
-
-            members = Mock.System.TypeEx.GetMember(
-                typeBar, "SetField3",
-                Reflection.MemberTypes.Method,
-                Reflection.BindingFlags.Instance | Reflection.BindingFlags.Public);
-
-            Assert.IsNotNull(members);
-            Assert.AreEqual(0, members.Length);
+        [TestMethod]
+        public void TypeEx_MakePointerType()
+        {
+            Assert.AreEqual(Type.GetType("System.Int32*", true, false), Mock.System.TypeEx.MakePointerType(typeof(int)));
+            Assert.AreEqual(Type.GetType("System.Int64*", true, false), Mock.System.TypeEx.MakePointerType(typeof(long)));
+            Assert.AreEqual(Type.GetType("System.String*", true, false), Mock.System.TypeEx.MakePointerType(typeof(string)));
         }
 
         interface Foo
@@ -141,6 +183,7 @@ namespace System.Runtime.Tests
             void SetField1(int value);
         }
         interface Qux { }
+        [Serializable]
         class Bar : Foo
         {
             private int _field1;
@@ -155,8 +198,15 @@ namespace System.Runtime.Tests
             public void SetField1(int value)
                 => _field1 = value;
 
+            public void SetField1(int value, bool set)
+                => _field1 = set ? value : _field1;
+
             public void SetField2(string value)
                 => _field2 = value;
+
+            public void DoNothing() { }
         }
+
+        class NotSerializableClass { }
     }
 }
