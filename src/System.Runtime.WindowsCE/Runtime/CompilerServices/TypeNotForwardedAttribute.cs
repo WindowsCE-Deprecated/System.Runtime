@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if DEBUG
+using System;
 
 #if NET35_CF
 namespace System.Runtime.CompilerServices
@@ -20,3 +21,4 @@ namespace Mock.System.Runtime.CompilerServices
         public TypeNotForwardedAttribute(Type reference) { }
     }
 }
+#endif
