@@ -36,7 +36,7 @@ namespace MonoTests.System.Threading
     public class VolatileTests
     {
         [TestMethod]
-        public void ReadPrimitives()
+        public void Volatile_ReadPrimitives()
         {
             bool v1 = true;
             Assert.AreEqual(true, Volatile.Read(ref v1), "#v1");
@@ -82,7 +82,7 @@ namespace MonoTests.System.Threading
         }
 
         [TestMethod]
-        public void WritePrimitives()
+        public void Volatile_WritePrimitives()
         {
             bool v1 = false;
             Volatile.Write(ref v1, true);

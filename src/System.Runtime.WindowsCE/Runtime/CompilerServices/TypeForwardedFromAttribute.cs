@@ -6,6 +6,7 @@ namespace System.Runtime.CompilerServices
 namespace Mock.System.Runtime.CompilerServices
 #endif
 {
+    [Obsolete(Consts.PlatformNotSupportedDescription)]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum | AttributeTargets.Interface | AttributeTargets.Delegate, Inherited = false, AllowMultiple = false)]
     public sealed class TypeForwardedFromAttribute : Attribute
     {

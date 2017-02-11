@@ -41,7 +41,7 @@ namespace System.Runtime.Tests
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Ctor_Null_1()
+        public void Lazy_Ctor_Null_1()
         {
             new Lazy<int>(null);
         }
@@ -49,13 +49,13 @@ namespace System.Runtime.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Ctor_Null_2()
+        public void Lazy_Ctor_Null_2()
         {
             new Lazy<int>(null, false);
         }
 
         [TestMethod]
-        public void IsValueCreated()
+        public void Lazy_IsValueCreated()
         {
             var l1 = new Lazy<int>();
 
@@ -67,7 +67,7 @@ namespace System.Runtime.Tests
         }
 
         [TestMethod]
-        public void DefaultCtor()
+        public void Lazy_DefaultCtor()
         {
             var l1 = new Lazy<DefaultCtorClass>();
 
@@ -90,7 +90,7 @@ namespace System.Runtime.Tests
         }
 
         [TestMethod]
-        public void NoDefaultCtor()
+        public void Lazy_NoDefaultCtor()
         {
             var l1 = new Lazy<NoDefaultCtorClass>();
 
@@ -112,7 +112,7 @@ namespace System.Runtime.Tests
         }
 
         [TestMethod]
-        public void NotThreadSafe()
+        public void Lazy_NotThreadSafe()
         {
             var l1 = new Lazy<int>();
 
@@ -126,7 +126,7 @@ namespace System.Runtime.Tests
         static int counter;
 
         [TestMethod]
-        public void EnsureSingleThreadSafeExecution()
+        public void Lazy_EnsureSingleThreadSafeExecution()
         {
             counter = 42;
 
@@ -154,7 +154,7 @@ namespace System.Runtime.Tests
         }
 
         [TestMethod]
-        public void InitRecursion()
+        public void Lazy_InitRecursion()
         {
             Lazy<DefaultCtorClass> c = null;
             c = new Lazy<DefaultCtorClass>(() => { Console.WriteLine(c.Value); return null; });
@@ -170,7 +170,7 @@ namespace System.Runtime.Tests
         }
 
         [TestMethod]
-        public void ModeNone()
+        public void Lazy_ModeNone()
         {
             int x;
             bool fail = true;
@@ -218,7 +218,7 @@ namespace System.Runtime.Tests
         }
 
         [TestMethod]
-        public void ModePublicationOnly()
+        public void Lazy_ModePublicationOnly()
         {
             bool fail = true;
             int invoke = 0;
@@ -254,7 +254,7 @@ namespace System.Runtime.Tests
         }
 
         [TestMethod]
-        public void ModeExecutionAndPublication()
+        public void Lazy_ModeExecutionAndPublication()
         {
             int invoke = 0;
             bool fail = true;
@@ -311,14 +311,14 @@ namespace System.Runtime.Tests
         }
 
         [TestMethod]
-        public void Trivial_Lazy()
+        public void Lazy_Trivial_Lazy()
         {
             var x = new Lazy<int>(Return22, false);
             Assert.AreEqual(22, x.Value, "#1");
         }
 
         [TestMethod]
-        public void ConcurrentInitialization()
+        public void Lazy_ConcurrentInitialization()
         {
             var init = new AutoResetEvent(false);
             var e1_set = new AutoResetEvent(false);
