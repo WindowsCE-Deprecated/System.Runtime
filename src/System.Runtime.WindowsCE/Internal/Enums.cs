@@ -1,3 +1,4 @@
+#if DEBUG
 // Ref: https://opennetcf.codeplex.com/
 using System;
 
@@ -470,3 +471,4 @@ namespace Internal
     }
 
 }
+#endif

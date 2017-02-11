@@ -1,4 +1,5 @@
-﻿// Ref: https://opennetcf.codeplex.com/
+﻿#if DEBUG
+// Ref: https://opennetcf.codeplex.com/
 
 namespace Internal
 {
@@ -54,3 +55,4 @@ namespace Internal
     }
 #pragma warning restore 0649
 }
+#endif

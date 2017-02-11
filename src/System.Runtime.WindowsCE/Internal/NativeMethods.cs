@@ -1,3 +1,4 @@
+#if DEBUG
 // Ref: https://opennetcf.codeplex.com/
 using System;
 using System.Collections.Generic;
@@ -533,3 +534,4 @@ namespace Internal
     }
 #pragma warning restore 0649
 }
+#endif
