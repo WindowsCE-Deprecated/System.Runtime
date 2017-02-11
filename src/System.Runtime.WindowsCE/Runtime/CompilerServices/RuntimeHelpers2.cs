@@ -41,6 +41,7 @@ namespace System.Runtime.CompilerServices
         public static void InitializeArray(Array array, RuntimeFieldHandle fldHandle)
             => RuntimeHelpers.InitializeArray(array, fldHandle);
 
+        // TODO: Improve for real usage
         public static void RunClassConstructor(RuntimeTypeHandle type)
         {
             const BindingFlags flags =
