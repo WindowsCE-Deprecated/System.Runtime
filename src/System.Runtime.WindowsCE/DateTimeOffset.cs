@@ -320,6 +320,21 @@ namespace Mock.System
             return new DateTimeOffset(time.Ticks, offset);
         }
 
+        public override string ToString()
+        {
+            return ToString("G K", DateTimeFormatInfo.CurrentInfo);
+        }
+
+        public string ToString(string format)
+        {
+            return ToString(format, DateTimeFormatInfo.CurrentInfo);
+        }
+
+        public string ToString(IFormatProvider formatProvider)
+        {
+            return ToString("G K", DateTimeFormatInfo.CurrentInfo);
+        }
+
         public string ToString(string format, IFormatProvider formatProvider)
         {
             if (!string.IsNullOrEmpty(format))

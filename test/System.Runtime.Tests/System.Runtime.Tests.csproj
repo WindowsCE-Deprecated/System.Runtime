@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DateTimeOffsetTests.cs" />
     <Compile Include="EnumTests.cs" />
     <Compile Include="LazyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
