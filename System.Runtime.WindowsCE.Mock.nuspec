@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>System.Runtime.WindowsCE.Mock</id>
+    <version>$version$</version>
+    <title>System.Runtime for WindowsCE</title>
+    <authors>Fabricio Godoy</authors>
+    <owners>skarllot,fgodoy-verion</owners>
+    <licenseUrl>https://github.com/WindowsCE/System.Runtime/blob/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/WindowsCE/System.Runtime</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <copyright>Copyright © Fabrício Godoy</copyright>
+    <summary>Provides the fundamental primitives, classes and base classes</summary>
+    <description>Provides the fundamental primitives, classes and base classes that define commonly-used value and reference data types, events and event handlers, interfaces, attributes, and exceptions. This packages represents the core package, and provides the minimal set of types required to build a managed application.
+
+Commonly Used Types:
+System.Object
+System.Exception
+System.Int16
+System.Int32
+System.Int64
+System.Enum
+System.String
+System.Char
+System.Boolean
+System.SByte
+System.Byte
+System.DateTime
+System.DateTimeOffset
+System.Single
+System.Double
+System.UInt16
+System.UInt32
+System.UInt64
+System.IDisposable
+System.Uri
+ 
+Mimics the package System.Runtime.</description>
+    <language>en-US</language>
+    <tags>net35-cf,windowsce,wince,netstandard,netstandard1.0</tags>
+  </metadata>
+</package>

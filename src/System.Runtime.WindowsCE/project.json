@@ -35,7 +35,7 @@
         "System.Runtime.Serialization.Formatters.WindowsCE": "1.0.2"
       }
     },
-    "net35": {
+    "net35-client": {
       "buildOptions": {
         "nowarn": [ "CS0436", "CS0114" ],
         "xmlDoc": false,
