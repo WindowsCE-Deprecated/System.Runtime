@@ -21,9 +21,3 @@ using System.Resources;
 #else
 [assembly: AssemblyConfiguration("Retail")]
 #endif
-
-#if CLASSIC
-[assembly: AssemblyKeyFile(@"..\..\..\tools\keypair.snk")]
-[assembly: AssemblyDelaySign(true)]
-#endif
-
